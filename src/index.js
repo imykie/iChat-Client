@@ -2,6 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import 'antd/dist/antd.css';
+import 'materialize-css/dist/css/materialize.min.css'
+import M from 'materialize-css';
+
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
