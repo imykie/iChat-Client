@@ -5,12 +5,14 @@ import App from './App';
 import 'antd/dist/antd.css';
 import 'materialize-css/dist/css/materialize.min.css'
 import M from 'materialize-css';
-
 import * as serviceWorker from './serviceWorker';
+import Firebase, { FirebaseContext }from './components/Firebase';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <FirebaseContext.Provider value={new Firebase()}>
+      <App />
+    </FirebaseContext.Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -10,8 +10,9 @@ class Landing extends Component{
 
 
     render(){
+        console.log(process.env.REACT_APP_OWNER_NAME)
         return (
-            <div>Landing</div>
+        <div>Landing {process.env.REACT_APP_OWNER_NAME}</div>
         )
     }
 }
