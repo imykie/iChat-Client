@@ -22,6 +22,7 @@ class Firebase {
         this.googleProvider = new app.auth.GoogleAuthProvider();
         this.facebookProvider = new app.auth.FacebookAuthProvider();
         this.twitterProvider = new app.auth.TwitterAuthProvider();
+        this.githubProvider = new app.auth.GithubAuthProvider();
 
     }
 
@@ -96,7 +97,7 @@ class Firebase {
     }
     //facebook auth
     facebookAuth(){
-        return this.auth.signInWithPopup(this.facebookProvider);
+        return this.auth.signInWithPopup(this.facebookProvider); //https://ichat-b3555.firebaseapp.com/__/auth/handler
     }
     //twitter auth
     twitterAuth(){
@@ -112,10 +113,14 @@ class Firebase {
         //     const credential = err.credential; //gets credential
         // })
     }
+    //github auth
+    githubAuth(){
+        return this.auth.signInWithPopup(this.githubProvider);
+    }
 
     //signs user out
     signOut(){
-        this.auth.signOut();
+        return this.auth.signOut();
     }
 
 }
