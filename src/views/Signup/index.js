@@ -8,13 +8,6 @@ import * as ROUTES from '../../constants/routes';
 
 const { log, warn } = console;
 
-const SignUpPage = () => (
-    <div>
-        <h3 className="center-align">Sign Up</h3>
-        <SignUpForm />
-    </div>
-);
-
 const INITIAL_STATE = {
     username: "",
     email: "",
@@ -22,6 +15,13 @@ const INITIAL_STATE = {
     confirmPassword: "",
     error: null
 }
+
+const SignUpPage = () => (
+    <div>
+        <h3 className="center-align">Sign Up</h3>
+        <SignUpForm />
+    </div>
+);
 
 class SignUpFormBase extends Component{
     constructor(props){
