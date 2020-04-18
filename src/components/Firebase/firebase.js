@@ -1,4 +1,7 @@
-import { app } from 'firebase';
+import app from 'firebase/app';
+import firestore from 'firebase/firestore';
+import messaging from 'firebase/messaging';
+import 'firebase/auth';
 
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -14,7 +17,7 @@ const config = {
 const { log } = console;
 class Firebase {
     constructor(){
-        app.initializeApp(config);
+        app.initializeApp(config)
         this.auth = app.auth();
         this.firestore = app.firestore();
         this.messaging = app.messaging();
@@ -28,10 +31,10 @@ class Firebase {
 
     //email and password auth
     signUpWithEmailAndPassword(email, password){
-        return this.auth.createUserWithEmailAndPassWord(email, password);
+        return this.auth.createUserWithEmailAndPassword(email, password);
     }
     signInWithEmailAndPassword(email, password){
-        return this.auth.signInWithEmailAndPassword(email, password);
+        this.auth.signInWithEmailAndPassword(email, password);
     }
 
     //reset password
@@ -62,25 +65,26 @@ class Firebase {
         this.auth.signInWithPhoneNumber(phoneNumber, appVerifier).then(confirmationResult => {
             log(confirmationResult);
             window.confirmationResult = confirmationResult
+
+            const verifyPhoneAuthCode = () => {
+                const code = '123456';
+                confirmationResult.confirm(code).then(result => {
+                    let user = result.user;
+                    log(user);
+                }).catch(err => {
+                    log(err);
+                })
+            }
+            verifyPhoneAuthCode();
+
         }).catch(err => {
             log(err);
             window.recaptchaVerifier.render().then(widgetId => {
-                grecaptcha.reset(widgetId);
+                // grecaptcha.reset(widgetId);
             })
         })
     }
-
-    verifyPhoneAuthCode(){
-        const code = '123456';
-        confirmationResult.confirm(code).then(result => {
-            let user = result.user;
-            log(user);
-
-        }).catch(err => {
-            log(err);
-        })
-    }
-
+    
     onAuthChanged(){
         this.auth.onAuthStateChanged((user) => {
             if(user){
@@ -112,6 +116,11 @@ class Firebase {
         //     const email = err.email; //the email of the user's account used
         //     const credential = err.credential; //gets credential
         // })
+
+        //link email address and password credentials to user account
+        // var provider = new firebase.auth.GoogleAuthProvider();
+        // auth.currentUser.linkWithPopup(provider);
+        // auth.currentUser.linkWithCredential(firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, 'password'))
     }
     //github auth
     githubAuth(){
