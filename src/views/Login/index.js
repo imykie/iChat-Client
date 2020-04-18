@@ -39,6 +39,7 @@ class LogInFormBase extends Component{
         this.props.firebase.signInWithEmailAndPassword(email, password)
             .then( user => {
                 log(user);
+                log('user signed in');
                 this.setState({...INITIAL_STATE});
                 this.props.history.push(ROUTES.HOME);
             })
@@ -73,7 +74,7 @@ class LogInFormBase extends Component{
                         </div>
                         {error && <p>{error.message}</p>}
                         <div className="center-align">
-                            <button disabled={inValid} type="submit" className="waves-effect waves-light btn-large ">Sign Up</button>
+                            <button disabled={inValid} type="submit" className="waves-effect waves-light btn-large">Sign Up</button>
                         </div>
                     </form>
                 </div>

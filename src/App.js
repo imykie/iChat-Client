@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 
+import { withFirebase } from './components/Firebase';
+import { AuthUserContext } from './components/Session';
+
 import Navigation from './components/Navigation';
 import Admin from './views/Admin';
 import Chat from './views/Chat';
@@ -13,22 +16,26 @@ import Signup from './views/Signup';
 
 import * as ROUTES from './constants/routes';
 
-const routing = (
-  <Router>
-    <div className="">
-      {/* <Navigation /> */}
-      <Switch>
-        <Route exact path={ROUTES.LANDING} component={Landing} />
-        <Route path={ROUTES.HOME} component={Home} />
-        <Route path={ROUTES.ADMIN} component={Admin} />
-        <Route path={ROUTES.LOGIN} component={Login} />
-        <Route path={ROUTES.SIGN_UP} component={Signup} />
-        <Route path={ROUTES.CHAT} component={Chat} />
-        <Route path={ROUTES.SETTINGS} component={Settings} />
+const { log } = console;
 
-      </Switch>
-    </div>
-  </Router>
+const routing = ({authUser}) => (
+  <AuthUserContext.Provider value={authUser}>
+    <Router>
+      <div className="">
+        <Navigation authUser={authUser} />
+        <Switch>
+          <Route exact path={ROUTES.LANDING} component={Landing} />
+          <Route path={ROUTES.HOME} component={Home} />
+          <Route path={ROUTES.ADMIN} component={Admin} />
+          <Route path={ROUTES.LOGIN} component={Login} />
+          <Route path={ROUTES.SIGN_UP} component={Signup} />
+          <Route path={ROUTES.CHAT} component={Chat} />
+          <Route path={ROUTES.SETTINGS} component={Settings} />
+
+        </Switch>
+      </div>
+    </Router>
+  </AuthUserContext.Provider>
 )
 
 const isLoading = (
@@ -57,23 +64,37 @@ class App extends Component{
   constructor(props){
     super(props)
     this.state = {
-      loading: true
+      loading: true,
+      authUser: null
     }
+    this.listener = () => {}
   }
 
   componentDidMount(){
     asynCall().then(() => this.setState({loading: false}))
+    this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
+      if(authUser){
+        this.setState({ authUser: authUser })
+        log(authUser)
+      }
+        this.setState({ authUser: null })
+    })
+  }
+
+  componentWillUnmount(){
+    this.listener();
   }
 
   render(){
     const {loading} = this.state
+    // log(this.props)
     
     return (
       <div>
-        <div> { loading? isLoading: routing } </div>
+        <div> { loading? isLoading: routing(this.state) } </div>
       </div>
     )
   }
 }
 
-export default App;
+export default withFirebase(App);

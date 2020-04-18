@@ -127,6 +127,11 @@ class Firebase {
         return this.auth.signInWithPopup(this.githubProvider);
     }
 
+    //auth state changed
+    onStateChanged(){
+        return this.auth.onAuthStateChanged();
+    }
+
     //signs user out
     signOut(){
         return this.auth.signOut();

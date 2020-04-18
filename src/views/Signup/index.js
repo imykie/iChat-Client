@@ -84,7 +84,7 @@ class SignUpFormBase extends Component{
                         </div>
                         {error && <p>{error.message}</p>}
                         <div className="center-align">
-                            <button disabled={inValid} type="submit" className="waves-effect waves-light btn-large ">Sign Up</button>
+                            <button disabled={inValid} type="submit" className="waves-effect waves-light btn-large">Sign Up</button>
                         </div>
                     </form>
                 </div>
