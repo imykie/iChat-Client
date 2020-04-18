@@ -75,9 +75,13 @@ class App extends Component{
     this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
       if(authUser){
         this.setState({ authUser: authUser })
-        log(authUser)
+        log(this.state.authUser)
       }
+      else{
         this.setState({ authUser: null })
+        log(this.state.authUser)
+      }
+        
     })
   }
 
