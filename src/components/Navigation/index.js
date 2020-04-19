@@ -7,6 +7,7 @@ import SignOutBtn from '../SignOut';
 const Navigation = ({authUser}) => (
     <div>
         {authUser? <NavigationAuth /> : <NavigationNonAuth />}
+        {console.log(authUser)}
     </div>
 )
 const NavigationAuth = () => (

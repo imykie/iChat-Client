@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 
-import { withFirebase } from './components/Firebase';
-import { AuthUserContext } from './components/Session';
+import { withAuthentication } from './components/Session';
 
 import Navigation from './components/Navigation';
 import Admin from './views/Admin';
@@ -18,11 +17,10 @@ import * as ROUTES from './constants/routes';
 
 const { log } = console;
 
-const routing = ({authUser}) => (
-  <AuthUserContext.Provider value={authUser}>
+const routing = ({authState}) => (
     <Router>
       <div className="">
-        <Navigation authUser={authUser} />
+        <Navigation authUser={authState} />
         <Switch>
           <Route exact path={ROUTES.LANDING} component={Landing} />
           <Route path={ROUTES.HOME} component={Home} />
@@ -31,11 +29,9 @@ const routing = ({authUser}) => (
           <Route path={ROUTES.SIGN_UP} component={Signup} />
           <Route path={ROUTES.CHAT} component={Chat} />
           <Route path={ROUTES.SETTINGS} component={Settings} />
-
         </Switch>
       </div>
     </Router>
-  </AuthUserContext.Provider>
 )
 
 const isLoading = (
@@ -65,29 +61,13 @@ class App extends Component{
     super(props)
     this.state = {
       loading: true,
-      authUser: null
     }
-    this.listener = () => {}
   }
 
   componentDidMount(){
     asynCall().then(() => this.setState({loading: false}))
-    this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-      if(authUser){
-        this.setState({ authUser: authUser })
-        log(this.state.authUser)
-      }
-      else{
-        this.setState({ authUser: null })
-        log(this.state.authUser)
-      }
-        
-    })
   }
 
-  componentWillUnmount(){
-    this.listener();
-  }
 
   render(){
     const {loading} = this.state
@@ -95,10 +75,10 @@ class App extends Component{
     
     return (
       <div>
-        <div> { loading? isLoading: routing(this.state) } </div>
+        <div> { loading? isLoading: routing(this.props) } </div>
       </div>
     )
   }
 }
 
-export default withFirebase(App);
+export default withAuthentication(App);
