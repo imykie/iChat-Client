@@ -57,7 +57,7 @@ class LogInFormBase extends Component{
         const inValid = email === '' || password === '';
 
         return (
-            <div className="signup-container">
+            <div className="login-container">
                 <div className="row mt-4">
                     <form onSubmit={this.onSubmit} className="col s12">
                         <div className="row">

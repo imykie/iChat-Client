@@ -43,7 +43,7 @@ class Firebase {
     }
     //update password
     updatePassword(password){
-        this.auth.updatePassword(password);
+        this.auth.currentUser.updatePassword(password);
     }
     //phone auth
     recaptchaVerifier(){
