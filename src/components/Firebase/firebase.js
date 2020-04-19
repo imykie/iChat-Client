@@ -39,11 +39,11 @@ class Firebase {
 
     //reset password
     resetPassword(email){
-        this.auth.sendPasswordResetEmail(email);
+        return this.auth.sendPasswordResetEmail(email);
     }
     //update password
     updatePassword(password){
-        this.auth.currentUser.updatePassword(password);
+        return this.auth.currentUser.updatePassword(password);
     }
     //phone auth
     recaptchaVerifier(){

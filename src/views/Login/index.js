@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import './login.css';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { SignUpLink } from '../Signup';
 import { withFirebase } from '../../components/Firebase';
+import { ForgotPasswordLink } from '../ForgotPassword';
 import * as ROUTES from '../../constants/routes';
 
 
@@ -20,6 +21,7 @@ const LogInPage = () => (
         <h3 className="center-align">Login</h3>
         <LogInForm />
         <div className="center-align">
+            <ForgotPasswordLink />
             <SignUpLink />
         </div>
     </div>
@@ -74,7 +76,7 @@ class LogInFormBase extends Component{
                         </div>
                         {error && <p>{error.message}</p>}
                         <div className="center-align">
-                            <button disabled={inValid} type="submit" className="waves-effect waves-light btn-large">Sign Up</button>
+                            <button disabled={inValid} type="submit" className="waves-effect waves-light btn-large">Login</button>
                         </div>
                     </form>
                 </div>

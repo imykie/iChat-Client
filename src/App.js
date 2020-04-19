@@ -5,7 +5,7 @@ import './App.css';
 import { withAuthentication } from './components/Session';
 
 import Navigation from './components/Navigation';
-import Admin from './views/Admin';
+import Admin from './views/Admin/Admin';
 import Chat from './views/Chat';
 import Home from './views/Home';
 import Landing from './views/Landing';
