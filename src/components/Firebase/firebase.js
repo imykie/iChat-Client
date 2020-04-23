@@ -1,7 +1,8 @@
 import app from 'firebase/app';
-import firestore from 'firebase/firestore';
-import messaging from 'firebase/messaging';
 import 'firebase/auth';
+import 'firebase/database'
+import 'firebase/firestore';
+import  'firebase/messaging';
 
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -19,6 +20,7 @@ class Firebase {
     constructor(){
         app.initializeApp(config)
         this.auth = app.auth();
+        this.db = app.database();
         this.firestore = app.firestore();
         this.messaging = app.messaging();
 

@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { SignUpLink } from '../Signup';
 import { withFirebase } from '../../components/Firebase';
+import SignInWithGoogle from './google';
 import { ForgotPasswordLink } from '../ForgotPassword';
 import * as ROUTES from '../../constants/routes';
 
@@ -87,7 +88,7 @@ class LogInFormBase extends Component{
 }
 
 const LogInForm = compose(withRouter, withFirebase)(LogInFormBase);
-
+const LogInWithGoogle = compose(withRouter, withFirebase)(SignInWithGoogle);
 export default LogInPage;
 
-export { LogInForm };
+export { LogInForm, LogInWithGoogle };

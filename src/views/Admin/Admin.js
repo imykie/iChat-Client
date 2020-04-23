@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { ForgotPassword } from '../ForgotPassword';
 import ChangePassword from '../../components/ChangePassword';
+import { withAuthorization, AuthUserContext } from '../../components/Session';
+
 class Admin extends Component{
     constructor(props){
         super(props)
@@ -9,16 +11,24 @@ class Admin extends Component{
         }
     }
 
-
     render(){
         return (
-            <div>
-                <h3 className="center-align">Account Page</h3>
-                <ForgotPassword />
-                <ChangePassword />
-            </div>
+            <AuthUserContext.Consumer>
+                { authUser => 
+                    (
+                        <div>
+                            <h3 className="center-align">Account Page: {authUser.email}</h3>
+                            <ForgotPassword />
+                            <ChangePassword />
+                        </div>
+                    )
+                }
+                
+            </AuthUserContext.Consumer>
         )
     }
 }
 
-export default Admin;
+const condition = authUser => !!authUser;
+
+export default  withAuthorization(condition)(Admin);
