@@ -6,3 +6,4 @@ export const ADMIN = '/admin';
 export const FORGET_PASSWORD = '/forget_password';
 export const SETTINGS = '/settings';
 export const CHAT = '/chat';
+export const PROFILE = '/profile';

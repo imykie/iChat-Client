@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as ROUTES from '../../constants/routes';
 
-class SignInWithGoogle extends Component{
+class SignInWithGithub extends Component{
 
     constructor(props){
         super(props);
@@ -12,7 +12,7 @@ class SignInWithGoogle extends Component{
     onSubmit = event => {
         event.preventDefault();
 
-        this.props.firebase.googleAuth()
+        this.props.firebase.githubAuth()
             .then(socialAuthUser => {
                 this.setState({error:null})
                 this.props.history.push(ROUTES.HOME)
@@ -28,7 +28,7 @@ class SignInWithGoogle extends Component{
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
-                    <button type="submit">Sign In With Google</button>
+                    <button type="submit">Sign In With Github</button>
                     {error && <p>{error.message}</p>}
                 </form>
             </div>
@@ -36,4 +36,4 @@ class SignInWithGoogle extends Component{
     }
 }
 
-export default SignInWithGoogle;
+export default SignInWithGithub;

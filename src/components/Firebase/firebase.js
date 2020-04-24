@@ -105,6 +105,10 @@ class Firebase {
     facebookAuth(){
         return this.auth.signInWithPopup(this.facebookProvider); //https://ichat-b3555.firebaseapp.com/__/auth/handler
     }
+    //github auth
+    githubAuth(){
+        return this.auth.signInWithPopup(this.githubProvider);
+    }
     //twitter auth
     twitterAuth(){
         return this.auth.signInWithPopup(this.twitterProvider);
@@ -124,10 +128,7 @@ class Firebase {
         // auth.currentUser.linkWithPopup(provider);
         // auth.currentUser.linkWithCredential(firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, 'password'))
     }
-    //github auth
-    githubAuth(){
-        return this.auth.signInWithPopup(this.githubProvider);
-    }
+    
 
     //auth state changed
     onStateChanged(){

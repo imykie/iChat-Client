@@ -4,7 +4,9 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { SignUpLink } from '../Signup';
 import { withFirebase } from '../../components/Firebase';
-import SignInWithGoogle from './google';
+import SignInWithGoogle from './googleAuth';
+import SignInWithFacebook from './facebookAuth';
+import SignInWithGithub from './githubAuth';
 import { ForgotPasswordLink } from '../ForgotPassword';
 import * as ROUTES from '../../constants/routes';
 
@@ -21,6 +23,9 @@ const LogInPage = () => (
     <div>
         <h3 className="center-align">Login</h3>
         <LogInForm />
+        <LogInWithGoogle />
+        <LogInWithFaceBook />
+        <LogInWithGithub />
         <div className="center-align">
             <ForgotPasswordLink />
             <SignUpLink />
@@ -89,6 +94,8 @@ class LogInFormBase extends Component{
 
 const LogInForm = compose(withRouter, withFirebase)(LogInFormBase);
 const LogInWithGoogle = compose(withRouter, withFirebase)(SignInWithGoogle);
+const LogInWithFaceBook = compose(withRouter, withFirebase)(SignInWithFacebook);
+const LogInWithGithub = compose(withRouter, withFirebase)(SignInWithGithub);
 export default LogInPage;
 
-export { LogInForm, LogInWithGoogle };
+export { LogInForm, LogInWithGoogle, LogInWithFaceBook };
