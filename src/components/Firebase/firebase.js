@@ -122,11 +122,6 @@ class Firebase {
         //     const email = err.email; //the email of the user's account used
         //     const credential = err.credential; //gets credential
         // })
-
-        //link email address and password credentials to user account
-        // var provider = new firebase.auth.GoogleAuthProvider();
-        // auth.currentUser.linkWithPopup(provider);
-        // auth.currentUser.linkWithCredential(firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, 'password'))
     }
     linkGoogle(){
         return this.auth.currentUser.linkWithPopup(this.googleProvider);

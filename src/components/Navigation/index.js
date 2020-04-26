@@ -29,6 +29,9 @@ const NavigationAuth = () => (
                 <Link to={ROUTES.CHAT}>Chat</Link>
             </li>
             <li>
+                <Link to={ROUTES.PROFILE}>Profile</Link>
+            </li>
+            <li>
                 <Link to={ROUTES.SETTINGS}>Settings</Link>
             </li>
             <li>

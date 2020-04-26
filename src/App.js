@@ -12,6 +12,8 @@ import Landing from './views/Landing';
 import Login from './views/Login';
 import Settings from './views/Settings';
 import Signup from './views/Signup';
+import Profile from './views/Profile';
+
 
 import * as ROUTES from './constants/routes';
 
@@ -29,6 +31,7 @@ const routing = ({authState}) => (
           <Route path={ROUTES.SIGN_UP} component={Signup} />
           <Route path={ROUTES.CHAT} component={Chat} />
           <Route path={ROUTES.SETTINGS} component={Settings} />
+          <Route path={ROUTES.PROFILE} component={Profile} />
         </Switch>
       </div>
     </Router>
