@@ -128,7 +128,21 @@ class Firebase {
         // auth.currentUser.linkWithPopup(provider);
         // auth.currentUser.linkWithCredential(firebase.auth.EmailAuthProvider.credential(auth.currentUser.email, 'password'))
     }
-    
+    linkGoogle(){
+        return this.auth.currentUser.linkWithPopup(this.googleProvider);
+    }
+    linkFacebook(){
+        return this.auth.currentUser.linkWithPopup(this.facebookProvider);
+    }
+    linkGithub(){
+        return this.auth.currentUser.linkWithPopup(this.githubProvider);
+    }
+    linkTwitter(){
+        return this.auth.currentUser.linkWithPopup(this.twitterProvider);
+    }
+    linkEmailAndPassword(password){
+        return this.auth.currentUser.linkWithCredential(this.auth.EmailAuthProvider.credential(this.auth.currentUser.email, password));
+    }
 
     //auth state changed
     onStateChanged(){
