@@ -23,7 +23,7 @@ class LinkWithGoogle extends Component{
     }
 
     render(){
-        const { error } = this.state
+        const { success, error } = this.state
 
         return (
             <div>

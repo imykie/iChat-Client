@@ -4,15 +4,17 @@ import { withFirebase } from '../../components/Firebase';
 import LinkWithGoogle from './linkGoogle';
 import LinkWithFacebook from './linkFacebook';
 import LinkWithGithub from './linkGithub';
+import LinkWithTwitter from './linkTwitter';
 
 
-const Profileapge = () => {
+const ProfilePage = () => {
     return (
         <div>
             <Profile />
             <LinkGoogle />
             <LinkFacebook />
             <LinkGithub />
+            <LinkTwitter />
         </div>
     )
 }
@@ -37,7 +39,8 @@ class ProfileBase extends Component {
 
 const Profile = withFirebase(ProfileBase);
 const LinkGoogle = withFirebase(LinkWithGoogle);
-const linkFacebook = withFirebase(LinkWithFacebook);
+const LinkFacebook = withFirebase(LinkWithFacebook);
 const LinkGithub = withFirebase(LinkWithGithub);
+const LinkTwitter = withFirebase(LinkWithTwitter);
 
 export default ProfilePage;

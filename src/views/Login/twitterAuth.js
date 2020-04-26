@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
+import * as ROUTES from '../../constants/routes';
 
-class LinkWithGithub extends Component{
+class SignInWithTwitter extends Component{
 
     constructor(props){
         super(props);
 
-        this.state = {success:false, error: null}
+        this.state = {error: null}
     }
 
     onSubmit = event => {
         event.preventDefault();
 
-        this.props.firebase.linkGoogle()
+        this.props.firebase.twitterAuth()
             .then(socialAuthUser => {
-                this.setState({success:true, error:null})
+                this.setState({error:null})
+                this.props.history.push(ROUTES.HOME)
             })
             .catch(err => {
                 this.setState({error: err})
@@ -21,18 +23,17 @@ class LinkWithGithub extends Component{
     }
 
     render(){
-        const { success, error } = this.state
+        const { error } = this.state
 
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
-                    <button type="submit">Link Account With Github</button>
+                    <button type="submit">Sign In With Twitter</button>
                     {error && <p>{error.message}</p>}
-                    {success && <p>Account linking successful</p>}
                 </form>
             </div>
         )
     }
 }
 
-export default LinkWithGithub;
+export default SignInWithTwitter;

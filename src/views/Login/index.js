@@ -7,6 +7,7 @@ import { withFirebase } from '../../components/Firebase';
 import SignInWithGoogle from './googleAuth';
 import SignInWithFacebook from './facebookAuth';
 import SignInWithGithub from './githubAuth';
+import SignInWithTwitter from './twitterAuth';
 import { ForgotPasswordLink } from '../ForgotPassword';
 import * as ROUTES from '../../constants/routes';
 
@@ -26,6 +27,7 @@ const LogInPage = () => (
         <LogInWithGoogle />
         <LogInWithFaceBook />
         <LogInWithGithub />
+        <LogInWithTwitter />
         <div className="center-align">
             <ForgotPasswordLink />
             <SignUpLink />
@@ -96,6 +98,7 @@ const LogInForm = compose(withRouter, withFirebase)(LogInFormBase);
 const LogInWithGoogle = compose(withRouter, withFirebase)(SignInWithGoogle);
 const LogInWithFaceBook = compose(withRouter, withFirebase)(SignInWithFacebook);
 const LogInWithGithub = compose(withRouter, withFirebase)(SignInWithGithub);
+const LogInWithTwitter = compose(withRouter, withFirebase)(SignInWithTwitter);
 export default LogInPage;
 
-export { LogInForm, LogInWithGoogle, LogInWithFaceBook };
+export { LogInForm, LogInWithGoogle, LogInWithFaceBook, LogInWithTwitter };

@@ -21,7 +21,7 @@ class LinkWithFacebook extends Component{
     }
 
     render(){
-        const { error } = this.state
+        const { success, error } = this.state
 
         return (
             <div>

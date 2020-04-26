@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class LinkWithGithub extends Component{
+class LinkWithTwitter extends Component{
 
     constructor(props){
         super(props);
@@ -11,7 +11,7 @@ class LinkWithGithub extends Component{
     onSubmit = event => {
         event.preventDefault();
 
-        this.props.firebase.linkGoogle()
+        this.props.firebase.linkTwitter()
             .then(socialAuthUser => {
                 this.setState({success:true, error:null})
             })
@@ -26,7 +26,7 @@ class LinkWithGithub extends Component{
         return (
             <div>
                 <form onSubmit={this.onSubmit}>
-                    <button type="submit">Link Account With Github</button>
+                    <button type="submit">Link Account With Twitter</button>
                     {error && <p>{error.message}</p>}
                     {success && <p>Account linking successful</p>}
                 </form>
@@ -35,4 +35,4 @@ class LinkWithGithub extends Component{
     }
 }
 
-export default LinkWithGithub;
+export default LinkWithTwitter;
