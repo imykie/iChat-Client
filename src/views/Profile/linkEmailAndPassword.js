@@ -6,6 +6,8 @@ const INITIAL_STATE = {
     error: null
 }
 
+const { log } = console;
+
 class LinkWithEmailAndPassword extends Component{
 
     constructor(props){
@@ -17,8 +19,11 @@ class LinkWithEmailAndPassword extends Component{
     onSubmit = event => {
         event.preventDefault();
 
+        const { password } = this.state
+
         this.props.firebase.linkEmailAndPassword(password)
             .then(socialAuthUser => {
+                log(socialAuthUser)
                 this.setState({success:true, error:null})
             })
             .catch(err => {
@@ -32,7 +37,7 @@ class LinkWithEmailAndPassword extends Component{
 
     render(){
         const { password, success, error } = this.state
-        const invalid = password === '';
+        const invalid = password === '' || password.length < 6;
         return (
             <div>
                 <form onSubmit={this.onSubmit}>

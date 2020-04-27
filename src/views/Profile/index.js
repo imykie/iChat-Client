@@ -45,4 +45,5 @@ const LinkFacebook = withFirebase(LinkWithFacebook);
 const LinkGithub = withFirebase(LinkWithGithub);
 const LinkTwitter = withFirebase(LinkWithTwitter);
 const LinkEmailAndPassword = withFirebase(LinkWithEmailAndPassword);
+
 export default ProfilePage;
