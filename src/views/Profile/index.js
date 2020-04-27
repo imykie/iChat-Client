@@ -5,6 +5,7 @@ import LinkWithGoogle from './linkGoogle';
 import LinkWithFacebook from './linkFacebook';
 import LinkWithGithub from './linkGithub';
 import LinkWithTwitter from './linkTwitter';
+import LinkWithEmailAndPassword from './linkEmailAndPassword';
 
 
 const ProfilePage = () => {
@@ -15,6 +16,7 @@ const ProfilePage = () => {
             <LinkFacebook />
             <LinkGithub />
             <LinkTwitter />
+            <LinkEmailAndPassword />
         </div>
     )
 }
@@ -42,5 +44,5 @@ const LinkGoogle = withFirebase(LinkWithGoogle);
 const LinkFacebook = withFirebase(LinkWithFacebook);
 const LinkGithub = withFirebase(LinkWithGithub);
 const LinkTwitter = withFirebase(LinkWithTwitter);
-
+const LinkEmailAndPassword = withFirebase(LinkWithEmailAndPassword);
 export default ProfilePage;
