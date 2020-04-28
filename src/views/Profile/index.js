@@ -6,6 +6,7 @@ import LinkWithFacebook from './linkFacebook';
 import LinkWithGithub from './linkGithub';
 import LinkWithTwitter from './linkTwitter';
 import LinkWithEmailAndPassword from './linkEmailAndPassword';
+import { withAuthorization, AuthUserContext } from '../../components/Session';
 
 
 const ProfilePage = () => {
@@ -26,14 +27,18 @@ class ProfileBase extends Component {
         super(props)
 
         this.state = {
-
+            user: JSON.parse(localStorage.getItem('authUser'))
         }
     }
 
     render(){
+
+        const { user } = this.state
         return(
             <div>
-                <h3>Profile Page</h3>
+                <h3>Profile</h3>
+                <p>{user.providerData.email}</p>
+                <ProfilePage />
             </div>
         )
     }
@@ -46,4 +51,6 @@ const LinkGithub = withFirebase(LinkWithGithub);
 const LinkTwitter = withFirebase(LinkWithTwitter);
 const LinkEmailAndPassword = withFirebase(LinkWithEmailAndPassword);
 
-export default ProfilePage;
+// const condition = authUser => !!authUser;
+
+export default ProfileBase;

@@ -16,6 +16,7 @@ const config = {
 }
 
 const { log } = console;
+
 class Firebase {
     constructor(){
         app.initializeApp(config)
@@ -136,7 +137,8 @@ class Firebase {
         return this.auth.currentUser.linkWithPopup(this.twitterProvider);
     }
     linkEmailAndPassword(password){
-        return this.auth.currentUser.linkWithCredential(this.auth.EmailAuthProvider.credential(this.auth.currentUser.email, password));
+        const credentials = this.auth.EmailAuthProvider.credential(this.auth.currentUser.email, password);
+        return this.auth.currentUser.linkWithCredential(credentials);
     }
 
     //auth state changed

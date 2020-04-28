@@ -28,6 +28,7 @@ class LinkWithEmailAndPassword extends Component{
             })
             .catch(err => {
                 this.setState({error: err})
+                log(err);
             })
     }
 
