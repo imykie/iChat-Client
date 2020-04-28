@@ -34,11 +34,11 @@ class ProfileBase extends Component {
     render(){
 
         const { user } = this.state
+        console.log(user)
         return(
             <div>
                 <h3>Profile</h3>
-                <p>{user.providerData.email}</p>
-                <ProfilePage />
+                <p>{user.providerData[0].email}</p>
             </div>
         )
     }
@@ -53,4 +53,4 @@ const LinkEmailAndPassword = withFirebase(LinkWithEmailAndPassword);
 
 // const condition = authUser => !!authUser;
 
-export default ProfileBase;
+export default ProfilePage;

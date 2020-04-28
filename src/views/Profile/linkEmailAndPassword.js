@@ -22,14 +22,14 @@ class LinkWithEmailAndPassword extends Component{
         const { password } = this.state
 
         this.props.firebase.linkEmailAndPassword(password)
-            .then(socialAuthUser => {
-                log(socialAuthUser)
-                this.setState({success:true, error:null})
-            })
-            .catch(err => {
-                this.setState({error: err})
-                log(err);
-            })
+            // .then(socialAuthUser => {
+            //     log(socialAuthUser)
+            //     this.setState({success:true, error:null})
+            // })
+            // .catch(err => {
+            //     this.setState({error: err})
+            //     log(err);
+            // })
     }
 
     onChange = event => {

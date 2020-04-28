@@ -137,8 +137,12 @@ class Firebase {
         return this.auth.currentUser.linkWithPopup(this.twitterProvider);
     }
     linkEmailAndPassword(password){
-        const credentials = this.auth.EmailAuthProvider.credential(this.auth.currentUser.email, password);
-        return this.auth.currentUser.linkWithCredential(credentials);
+        const token = this.auth.currentUser.getIdToken()
+        log(token)
+        window.user = token;
+        // window.decoded = jwt.decode(window.user.i);
+       // const credentials = this.auth.EmailAuthProvider.credential(this.auth.currentUser.email, password);
+        //return this.auth.currentUser.linkWithCredential(credentials);
     }
 
     //auth state changed
