@@ -19,17 +19,20 @@ class LinkWithEmailAndPassword extends Component{
     onSubmit = event => {
         event.preventDefault();
 
+        const user = JSON.parse(localStorage.getItem('authUser'))
+        const email = user.providerData[0].email;
         const { password } = this.state
 
-        this.props.firebase.linkEmailAndPassword(password)
-            // .then(socialAuthUser => {
-            //     log(socialAuthUser)
-            //     this.setState({success:true, error:null})
-            // })
-            // .catch(err => {
-            //     this.setState({error: err})
-            //     log(err);
-            // })
+        this.props.firebase.linkEmailAndPassword(email, password)
+            .then(passwordAuthUser => {
+                log(passwordAuthUser)
+                log(passwordAuthUser.user)
+                this.setState({success:true, error:null})
+            })
+            .catch(err => {
+                this.setState({error: err})
+                log(err);
+            })
     }
 
     onChange = event => {

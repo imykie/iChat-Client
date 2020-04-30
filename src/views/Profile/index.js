@@ -34,11 +34,13 @@ class ProfileBase extends Component {
     render(){
 
         const { user } = this.state
+        const email = user.providerData[0].email
+
         console.log(user)
         return(
             <div>
                 <h3>Profile</h3>
-                <p>{user.providerData[0].email}</p>
+                {email && <p>{email}</p>}
             </div>
         )
     }

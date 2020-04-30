@@ -3,6 +3,7 @@ import 'firebase/auth';
 import 'firebase/database'
 import 'firebase/firestore';
 import  'firebase/messaging';
+const firebase = require('firebase');
 
 const config = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -136,13 +137,17 @@ class Firebase {
     linkTwitter(){
         return this.auth.currentUser.linkWithPopup(this.twitterProvider);
     }
-    linkEmailAndPassword(password){
-        const token = this.auth.currentUser.getIdToken()
-        log(token)
-        window.user = token;
+    linkEmailAndPassword(email, password){
+        // const token = this.auth.currentUser.getIdToken()
+        // log(token)
+        // window.user = token;
         // window.decoded = jwt.decode(window.user.i);
-       // const credentials = this.auth.EmailAuthProvider.credential(this.auth.currentUser.email, password);
-        //return this.auth.currentUser.linkWithCredential(credentials);
+        log(email, password);
+        log(firebase.auth.EmailAuthProvider.credential(email, password));
+
+        const credentials = firebase.auth.EmailAuthProvider.credential(email, password); 
+        // had to use this because it's a static method in a static class that's why I needed the namespace. (firebase is written in ts);
+        return this.auth.currentUser.linkWithCredential(credentials);
     }
 
     //auth state changed
