@@ -105,7 +105,7 @@ class Firebase {
     }
     //facebook auth
     facebookAuth(){
-        return this.auth.signInWithPopup(this.facebookProvider); //https://ichat-b3555.firebaseapp.com/__/auth/handler
+        return this.auth.signInWithPopup(this.facebookProvider); 
     }
     //github auth
     githubAuth(){

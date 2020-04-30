@@ -99,6 +99,7 @@ const LogInWithGoogle = compose(withRouter, withFirebase)(SignInWithGoogle);
 const LogInWithFaceBook = compose(withRouter, withFirebase)(SignInWithFacebook);
 const LogInWithGithub = compose(withRouter, withFirebase)(SignInWithGithub);
 const LogInWithTwitter = compose(withRouter, withFirebase)(SignInWithTwitter);
+
 export default LogInPage;
 
-export { LogInForm, LogInWithGoogle, LogInWithFaceBook, LogInWithTwitter };
+export { LogInForm, LogInWithGoogle, LogInWithFaceBook, LogInWithGithub, LogInWithTwitter };

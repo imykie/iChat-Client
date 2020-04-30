@@ -3,6 +3,7 @@ import './signup.css'
 import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../../components/Firebase';
 import { compose } from 'recompose';
+import { LogInWithGoogle, LogInWithFaceBook, LogInWithGithub, LogInWithTwitter } from '../Login'
 import * as ROUTES from '../../constants/routes';
 
 
@@ -20,6 +21,10 @@ const SignUpPage = () => (
     <div>
         <h3 className="center-align">Sign Up</h3>
         <SignUpForm />
+        <LogInWithGoogle />
+        <LogInWithFaceBook />
+        <LogInWithGithub />
+        <LogInWithTwitter />
     </div>
 );
 
