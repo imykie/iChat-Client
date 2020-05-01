@@ -140,18 +140,18 @@ class Firebase {
     linkEmailAndPassword(email, password){
         // const token = this.auth.currentUser.getIdToken()
         // log(token)
-        // window.user = token;
-        // window.decoded = jwt.decode(window.user.i);
+        
         log(email, password);
         log(firebase.auth.EmailAuthProvider.credential(email, password));
 
         const credentials = firebase.auth.EmailAuthProvider.credential(email, password); 
         // had to use this because it's a static method in a static class that's why I needed the namespace. (firebase is written in ts);
+
         return this.auth.currentUser.linkWithCredential(credentials);
     }
 
     //auth state changed
-    onStateChanged(){
+    onAuthStateChanged(){
         return this.auth.onAuthStateChanged();
     }
 
@@ -159,6 +159,8 @@ class Firebase {
     signOut(){
         return this.auth.signOut();
     }
+
+
 
 }
 
