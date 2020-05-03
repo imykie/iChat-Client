@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withAuthorization } from '../components/Session';
+import { testQuery } from '../components/Queries';
 
 class Home extends Component{
     constructor(props){

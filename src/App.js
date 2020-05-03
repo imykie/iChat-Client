@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
-
+import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
 import { withAuthentication } from './components/Session';
@@ -21,7 +21,12 @@ import * as ROUTES from './constants/routes';
 
 const { log } = console;
 
+const client = new ApolloClient({
+  uri: process.env.REACT_APP_GRAPHQL_SERVER
+})
+
 const routing = ({authState}) => (
+  <ApolloProvider client={client}>
     <Router>
       <div className="">
         <Navigation authUser={authState} />
@@ -37,6 +42,7 @@ const routing = ({authState}) => (
         </Switch>
       </div>
     </Router>
+  </ApolloProvider>
 )
 
 const isLoading = (
