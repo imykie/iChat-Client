@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 
+import { ApolloProvider } from 'react-apollo';
+
 import { withAuthentication } from './components/Session';
 
 import Navigation from './components/Navigation';
