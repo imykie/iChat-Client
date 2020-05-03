@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withAuthorization } from '../components/Session';
+import { graphql } from 'react-apollo'; 
 import { testQuery } from '../components/Queries';
+import { compose } from 'recompose';
 
 class Home extends Component{
     constructor(props){
@@ -12,12 +14,21 @@ class Home extends Component{
 
 
     render(){
+        console.log(this.props.data)
         return (
-            <div>Home</div>
+            <div>
+                <h3>Home</h3>
+                <p>{this.props.data.hello}</p>
+            </div>
         )
     }
 }
 
 const condition = authUser => !!authUser
 
-export default withAuthorization(condition)(Home);
+const enhance = compose(
+    withAuthorization(condition),
+    graphql(testQuery)
+)
+
+export default enhance(Home);
