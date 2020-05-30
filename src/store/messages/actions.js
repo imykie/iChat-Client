@@ -13,3 +13,24 @@ import {
   DELETE_MESSAGE_FAILED,
 } from "./actionTypes";
 
+const fetchMessageRequest = () => {
+  return {
+    type: FETCH_MESSAGE_REQUEST,
+  };
+};
+
+const fetchMessageSuccess = (data) => {
+  return {
+    type: FETCH_MESSAGE_SUCCESSS,
+    payload: data,
+  };
+};
+
+const fetchMessageFailed = (error) => {
+  return {
+    type: FETCH_MESSAGE_FAILED,
+    payload: error,
+  };
+};
+
+
