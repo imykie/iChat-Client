@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-
+import { Provider } from 'react-redux'
 import { withAuthentication } from './components/Session';
 
 import Navigation from './components/Navigation';
