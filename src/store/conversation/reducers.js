@@ -105,3 +105,5 @@ const conversationReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default conversationReducer;
