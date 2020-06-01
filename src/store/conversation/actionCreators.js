@@ -33,20 +33,20 @@ const fetchConversationFailed = (error) => {
   };
 };
 
-const sendConversationRequest = () => {
+const createConversationRequest = () => {
   return {
     type: SEND_CONVERSATION_REQUEST,
   };
 };
 
-const sendConversationSuccess = (data) => {
+const createConversationSuccess = (data) => {
   return {
     type: SEND_CONVERSATION_SUCCESSS,
     payload: data,
   };
 };
 
-const sendConversationFailed = (error) => {
+const createConversationFailed = (error) => {
   return {
     type: SEND_CONVERSATION_FAILED,
     payload: error,
@@ -97,9 +97,9 @@ export {
   fetchConversationRequest,
   fetchConversationSuccess,
   fetchConversationFailed,
-  sendConversationRequest,
-  sendConversationSuccess,
-  sendConversationFailed,
+  createConversationRequest,
+  createConversationSuccess,
+  createConversationFailed,
   editConversationRequest,
   editConversationSuccess,
   editConversationFailed,

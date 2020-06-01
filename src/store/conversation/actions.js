@@ -2,9 +2,9 @@ import {
   fetchConversationRequest,
   fetchConversationSuccess,
   fetchConversationFailed,
-  sendConversationRequest,
-  sendConversationSuccess,
-  sendConversationFailed,
+  createConversationRequest,
+  createConversationSuccess,
+  createConversationFailed,
   editConversationRequest,
   editConversationSuccess,
   editConversationFailed,
@@ -23,10 +23,10 @@ const fetchConversation = (data, { firebase }) => {
       .get()
       .then((doc) => {
         if (!doc.exists) {
-          const data = {message: 'Conversation does not exist'}
-          return dispatch(fetchConversationSuccess(data))
+          const data = { message: "Conversation does not exist" };
+          return dispatch(fetchConversationSuccess(data));
         } else {
-          return dispatch(fetchConversationSuccess(doc.data()))
+          return dispatch(fetchConversationSuccess(doc.data()));
         }
       })
       .catch((err) => {
@@ -35,9 +35,27 @@ const fetchConversation = (data, { firebase }) => {
   };
 };
 
-const sendConversation = (data, { firebase }) => {
+const createConversation = (data, { firebase }) => {
   return (dispatch) => {
-    dispatch(sendConversationRequest);
+    dispatch(createConversationRequest);
+    firebase.firestore
+      .collection("conversation")
+      .add({
+        creator_id: data.user_id,
+        members: [{ user_id: data.user_id }],
+        conversation_name: data.conversation_name,
+        conversation_type: data.conversation_type,
+        created_at: new Date(Date.now()),
+        updated_at: new Date(Date.now()),
+        admins: [{ user_id: data.user_id }],
+        conversation_avatar: "",
+      })
+      .then((doc) => {
+        dispatch(createConversationSuccess(doc));
+      })
+      .catch((err) => {
+        dispatch(createConversationFailed(err));
+      });
   };
 };
 
@@ -54,13 +72,13 @@ const deleteConversation = (data, { firebase }) => {
 };
 
 const fetchConversationContainer = withFirebase(fetchConversation);
-const sendConversationContainer = withFirebase(sendConversation);
+const createConversationContainer = withFirebase(createConversation);
 const editConversationContainer = withFirebase(editConversation);
 const deleteConversationContainer = withFirebase(deleteConversation);
 
 export {
   fetchConversationContainer,
-  sendConversationContainer,
+  createConversationContainer,
   editConversationContainer,
   deleteConversationContainer,
 };
