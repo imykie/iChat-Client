@@ -2,6 +2,13 @@ import React, { Component } from "react";
 import { withAuthorization } from "../../components/Session";
 import { withFirebase } from "../../components/Firebase";
 import { compose } from "recompose";
+import { connect } from "react-redux";
+import {
+  fetchConversationContainer,
+  createConversationContainer,
+  editConversationContainer,
+  deleteConversationContainer,
+} from "../../store";
 
 class Chat extends Component {
   constructor(props) {
@@ -30,8 +37,27 @@ class Chat extends Component {
     return <div>Chat</div>;
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    data: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    fetchConversation: () => dispatch(fetchConversationContainer(ownProps.data.id)),
+    createConversation: () => dispatch(createConversationContainer(ownProps.data.id)),
+    editConversation: () => dispatch(editConversationContainer(ownProps.data.id)),
+    deleteConversation: () => dispatch(deleteConversationContainer(ownProps.data.id))
+  };
+};
 const condition = (authUser) => !!authUser;
 
-const enhance = compose(withAuthorization(condition), withFirebase);
+const enhance = compose(
+  withAuthorization(condition),
+  withFirebase,
+  connect(mapStateToProps, mapDispatchToProps)
+);
 
 export default enhance(Chat);
