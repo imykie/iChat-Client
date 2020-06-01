@@ -1,15 +1,15 @@
 import {
   FETCH_CONVERSATION_REQUEST,
-  FETCH_CONVERSATION_SUCCESSS,
+  FETCH_CONVERSATION_SUCCESS,
   FETCH_CONVERSATION_FAILED,
-  SEND_CONVERSATION_REQUEST,
-  SEND_CONVERSATION_SUCCESSS,
-  SEND_CONVERSATION_FAILED,
+  CREATE_CONVERSATION_REQUEST,
+  CREATE_CONVERSATION_SUCCESS,
+  CREATE_CONVERSATION_FAILED,
   EDIT_CONVERSATION_REQUEST,
-  EDIT_CONVERSATION_SUCCESSS,
+  EDIT_CONVERSATION_SUCCESS,
   EDIT_CONVERSATION_FAILED,
   DELETE_CONVERSATION_REQUEST,
-  DELETE_CONVERSATION_SUCCESSS,
+  DELETE_CONVERSATION_SUCCESS,
   DELETE_CONVERSATION_FAILED,
 } from "./actionTypes";
 
@@ -38,7 +38,7 @@ const conversationReducer = (state = initialState, action) => {
         ...state,
         loading: true,
       };
-    case FETCH_CONVERSATION_SUCCESSS:
+    case FETCH_CONVERSATION_SUCCESS:
       return {
         loading: false,
         conversations: action.payload,
@@ -50,18 +50,18 @@ const conversationReducer = (state = initialState, action) => {
         conversations: [],
         error: action.payload,
       };
-    case SEND_CONVERSATION_REQUEST:
+    case CREATE_CONVERSATION_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case SEND_CONVERSATION_SUCCESSS:
+    case CREATE_CONVERSATION_SUCCESS:
       return {
         loading: false,
         conversations: action.payload,
         error: "",
       };
-    case SEND_CONVERSATION_FAILED:
+    case CREATE_CONVERSATION_FAILED:
       return {
         loading: false,
         conversations: [],
@@ -72,7 +72,7 @@ const conversationReducer = (state = initialState, action) => {
         ...state,
         loading: true,
       };
-    case EDIT_CONVERSATION_SUCCESSS:
+    case EDIT_CONVERSATION_SUCCESS:
       return {
         loading: false,
         conversations: action.payload,
@@ -89,7 +89,7 @@ const conversationReducer = (state = initialState, action) => {
         ...state,
         loading: true,
       };
-    case DELETE_CONVERSATION_SUCCESSS:
+    case DELETE_CONVERSATION_SUCCESS:
       return {
         loading: false,
         conversations: action.payload,
