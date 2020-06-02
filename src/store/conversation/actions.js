@@ -51,7 +51,7 @@ const createConversation = (data, { firebase }) => {
         conversation_avatar: "",
       })
       .then((doc) => {
-        dispatch(createConversationSuccess(doc));
+        dispatch(createConversationSuccess(doc.data()));
       })
       .catch((err) => {
         dispatch(createConversationFailed(err));
