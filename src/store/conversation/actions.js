@@ -62,12 +62,36 @@ const createConversation = (data, { firebase }) => {
 const editConversation = (data, { firebase }) => {
   return (dispatch) => {
     dispatch(editConversationRequest);
+    firebase.firestore
+      .collection("conversation")
+      .doc(data.conversation_id)
+      .set({
+        conversation_name: data.conversation_name,
+        updated_at: new Date(Date.now()),
+        conversation_avatar: data.conversation_avatar,
+      })
+      .then((doc) => {
+        dispatch(editConversationSuccess(doc.data()));
+      })
+      .catch((err) => {
+        dispatch(editConversationFailed(doc.data()));
+      });
   };
 };
 
 const deleteConversation = (data, { firebase }) => {
   return (dispatch) => {
     dispatch(deleteConversationRequest);
+    firebase.firestore
+      .collection("conversation")
+      .doc(data.conversation_id)
+      .delete()
+      .then((doc) => {
+        dispatch(deleteConversationSuccess(doc.data));
+      })
+      .catch((err) => {
+        dispatch(deleteConversationFailed(err));
+      });
   };
 };
 

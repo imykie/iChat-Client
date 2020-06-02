@@ -92,7 +92,27 @@ const editMessage = (data, { firebase }) => {
 const deleteMessage = () => {
   return (dispatch) => {
     dispatch(deleteMessageRequest);
+    firebase.firestore
+      .collection("messages")
+      .doc(data.message_id)
+      .delete()
+      .then((doc) => {
+        dispatch(deleteMessageSuccess(doc.data()));
+      })
+      .catch((err) => {
+        dispatch(deleteMessageFailed(err));
+      });
   };
 };
 
-export { fetchMessages, sendMessage, editMessage, deleteMessage };
+const fetchMessagesContainer = withFirebase(fetchMessages);
+const sendMessageContainer = withFirebase(sendMessage);
+const editMessageContainer = withFirebase(editMessage);
+const deleteMessageContainer = withFirebase(deleteMessage);
+
+export {
+  fetchMessagesContainer,
+  sendMessageContainer,
+  editMessageContainer,
+  deleteMessageContainer,
+};
