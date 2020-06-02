@@ -13,6 +13,7 @@ import {
   deleteConversationFailed,
 } from "./actionCreators";
 import { withFirebase } from "../../components/Firebase";
+const firebase = require("firebase");
 
 const fetchConversation = (data, { firebase }) => {
   return (dispatch) => {
@@ -65,7 +66,7 @@ const editConversation = (data, { firebase }) => {
     firebase.firestore
       .collection("conversation")
       .doc(data.conversation_id)
-      .set({
+      .update({
         conversation_name: data.conversation_name,
         updated_at: new Date(Date.now()),
         conversation_avatar: data.conversation_avatar,
@@ -95,6 +96,46 @@ const deleteConversation = (data, { firebase }) => {
   };
 };
 
+const makeAdmin = (data) => {
+  return (dispatch) => {
+    dispatch(editConversationRequest);
+    firebase.firestore
+      .collection("conversation")
+      .doc(data.conversation_id)
+      .update({
+        admins: firebase.firestore.FieldValue.arrayUnion({
+          user_id: data.admin_id,
+        }),
+      })
+      .then((doc) => {
+        dispatch(editConversationSuccess(doc.data()));
+      })
+      .catch((err) => {
+        dispatch(editConversationFailed(err));
+      });
+  };
+};
+
+const addMember = (data) => {
+  return (dispatch) => {
+    dispatch(editConversationRequest);
+    firebase.firestore
+      .collection("conversation")
+      .doc(data.conversation_id)
+      .update({
+        members: firebase.firestore.FieldValue.arrayUnion({
+          user_id: data.member_id,
+        }),
+      })
+      .then((doc) => {
+        dispatch(editConversationSuccess(doc.data()));
+      })
+      .catch((err) => {
+        dispatch(editConversationFailed(err));
+      });
+  };
+};
+
 const fetchConversationContainer = withFirebase(fetchConversation);
 const createConversationContainer = withFirebase(createConversation);
 const editConversationContainer = withFirebase(editConversation);
@@ -105,4 +146,6 @@ export {
   createConversationContainer,
   editConversationContainer,
   deleteConversationContainer,
+  makeAdmin,
+  addMember,
 };

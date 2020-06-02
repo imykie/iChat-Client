@@ -70,7 +70,7 @@ const editMessage = (data, { firebase }) => {
     firebase.firestore
       .collection("messages")
       .doc(data.message_id)
-      .set({
+      .update({
         message_id: data.message,
         updated_at: new Date(Date.now()),
         sent: false,
