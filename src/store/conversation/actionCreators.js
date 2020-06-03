@@ -1,15 +1,15 @@
 import {
   FETCH_CONVERSATION_REQUEST,
-  FETCH_CONVERSATION_SUCCESSS,
+  FETCH_CONVERSATION_SUCCESS,
   FETCH_CONVERSATION_FAILED,
-  SEND_CONVERSATION_REQUEST,
-  SEND_CONVERSATION_SUCCESSS,
-  SEND_CONVERSATION_FAILED,
+  CREATE_CONVERSATION_REQUEST,
+  CREATE_CONVERSATION_SUCCESS,
+  CREATE_CONVERSATION_FAILED,
   EDIT_CONVERSATION_REQUEST,
-  EDIT_CONVERSATION_SUCCESSS,
+  EDIT_CONVERSATION_SUCCESS,
   EDIT_CONVERSATION_FAILED,
   DELETE_CONVERSATION_REQUEST,
-  DELETE_CONVERSATION_SUCCESSS,
+  DELETE_CONVERSATION_SUCCESS,
   DELETE_CONVERSATION_FAILED,
 } from "./actionTypes";
 
@@ -21,7 +21,7 @@ const fetchConversationRequest = () => {
 
 const fetchConversationSuccess = (data) => {
   return {
-    type: FETCH_CONVERSATION_SUCCESSS,
+    type: FETCH_CONVERSATION_SUCCESS,
     payload: data,
   };
 };
@@ -35,20 +35,20 @@ const fetchConversationFailed = (error) => {
 
 const createConversationRequest = () => {
   return {
-    type: SEND_CONVERSATION_REQUEST,
+    type: CREATE_CONVERSATION_REQUEST,
   };
 };
 
 const createConversationSuccess = (data) => {
   return {
-    type: SEND_CONVERSATION_SUCCESSS,
+    type: CREATE_CONVERSATION_SUCCESS,
     payload: data,
   };
 };
 
 const createConversationFailed = (error) => {
   return {
-    type: SEND_CONVERSATION_FAILED,
+    type: CREATE_CONVERSATION_FAILED,
     payload: error,
   };
 };
@@ -61,7 +61,7 @@ const editConversationRequest = () => {
 
 const editConversationSuccess = (data) => {
   return {
-    type: EDIT_CONVERSATION_SUCCESSS,
+    type: EDIT_CONVERSATION_SUCCESS,
     payload: data,
   };
 };
@@ -81,7 +81,7 @@ const deleteConversationRequest = () => {
 
 const deleteConversationSuccess = (data) => {
   return {
-    type: DELETE_CONVERSATION_SUCCESSS,
+    type: DELETE_CONVERSATION_SUCCESS,
     payload: data,
   };
 };

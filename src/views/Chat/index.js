@@ -8,6 +8,12 @@ import {
   createConversationContainer,
   editConversationContainer,
   deleteConversationContainer,
+  makeAdmin,
+  addMember,
+  fetchMessagesContainer,
+  sendMessageContainer,
+  editMessageContainer,
+  deleteMessageContainer,
 } from "../../store";
 
 class Chat extends Component {
@@ -15,6 +21,8 @@ class Chat extends Component {
     super(props);
     this.state = {
       user: JSON.parse(localStorage.getItem("authUser")),
+      conversation: this.props.data.conversation,
+      message: this.props.data.message,
     };
   }
 
@@ -33,7 +41,7 @@ class Chat extends Component {
       });
   };
   render() {
-    console.log(this.getUsers());
+    console.log(this.getUsers(), this.props, this.state);
     return <div>Chat</div>;
   }
 }
@@ -46,10 +54,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchConversation: () => dispatch(fetchConversationContainer(ownProps.data.id)),
-    createConversation: () => dispatch(createConversationContainer(ownProps.data.id)),
-    editConversation: () => dispatch(editConversationContainer(ownProps.data.id)),
-    deleteConversation: () => dispatch(deleteConversationContainer(ownProps.data.id))
+    fetchConversation: () =>
+      dispatch(fetchConversationContainer(ownProps.data)),
+    createConversation: () =>
+      dispatch(createConversationContainer(ownProps.data)),
+    editConversation: () => dispatch(editConversationContainer(ownProps.data)),
+    deleteConversation: () =>
+      dispatch(deleteConversationContainer(ownProps.data)),
+    makeAdmin: () => dispatch(makeAdmin(ownProps.data)),
+    addMember: () => dispatch(addMember(ownProps.data)),
+    fetchMessages: () => dispatch(fetchMessagesContainer(ownProps.data)),
+    sendMessage: () => dispatch(sendMessageContainer(ownProps.data)),
+    editMessage: () => dispatch(editMessageContainer(ownProps.data)),
+    deleteMessage: () => dispatch(deleteMessageContainer(ownProps.data)),
   };
 };
 const condition = (authUser) => !!authUser;

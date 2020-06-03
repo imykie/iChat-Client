@@ -89,7 +89,7 @@ const editMessage = (data, { firebase }) => {
   };
 };
 
-const deleteMessage = () => {
+const deleteMessage = (data, {firebase}) => {
   return (dispatch) => {
     dispatch(deleteMessageRequest);
     firebase.firestore

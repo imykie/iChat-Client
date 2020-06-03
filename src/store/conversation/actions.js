@@ -75,7 +75,7 @@ const editConversation = (data, { firebase }) => {
         dispatch(editConversationSuccess(doc.data()));
       })
       .catch((err) => {
-        dispatch(editConversationFailed(doc.data()));
+        dispatch(editConversationFailed(err.data()));
       });
   };
 };
