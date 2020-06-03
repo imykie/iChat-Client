@@ -23,6 +23,9 @@ class Chat extends Component {
       user: JSON.parse(localStorage.getItem("authUser")),
       conversation: this.props.data.conversation,
       message: this.props.data.message,
+      data: {
+        conversation_name: "",
+      },
     };
   }
 
@@ -40,9 +43,48 @@ class Chat extends Component {
         });
       });
   };
+
+  onSubmit = async (event) => {
+    event.preventDefault();
+    await this.props.createConversation(this.state.data);
+    
+  };
+
+  onCreateConversationChange = (event) => {
+    let inputName = event.target.name;
+    let inputValue = event.target.value;
+    let statusCopy = Object.assign({}, this.state);
+    statusCopy.data[inputName] = inputValue;
+    statusCopy.data.user_id = this.state.user.uid;
+    statusCopy.data.conversation_type = "group";
+
+    this.setState({ ...statusCopy });
+  };
+
   render() {
-    console.log(this.getUsers(), this.props, this.state);
-    return <div>Chat</div>;
+    console.log(this.props, this.state);
+    const {
+      data: { conversation_name },
+    } = this.state;
+
+    return (
+      <div>
+        <div>
+          <form onSubmit={this.onSubmit}>
+            <input
+              type="text"
+              name="conversation_name"
+              value={conversation_name}
+              onChange={this.onCreateConversationChange}
+              style={{ width: 80 + "%", marginLeft: 10 + "%" }}
+            />
+            <button type="submit" value="submit">
+              Create Conversation
+            </button>
+          </form>
+        </div>
+      </div>
+    );
   }
 }
 
@@ -54,21 +96,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchConversation: () =>
-      dispatch(fetchConversationContainer(ownProps.data)),
-    createConversation: () =>
-      dispatch(createConversationContainer(ownProps.data)),
-    editConversation: () => dispatch(editConversationContainer(ownProps.data)),
-    deleteConversation: () =>
-      dispatch(deleteConversationContainer(ownProps.data)),
-    makeAdmin: () => dispatch(makeAdmin(ownProps.data)),
-    addMember: () => dispatch(addMember(ownProps.data)),
-    fetchMessages: () => dispatch(fetchMessagesContainer(ownProps.data)),
-    sendMessage: () => dispatch(sendMessageContainer(ownProps.data)),
-    editMessage: () => dispatch(editMessageContainer(ownProps.data)),
-    deleteMessage: () => dispatch(deleteMessageContainer(ownProps.data)),
+    fetchConversation: (data) => dispatch(fetchConversationContainer(data)),
+    createConversation: (data) => dispatch(createConversationContainer(data)),
+    editConversation: (data) => dispatch(editConversationContainer(data)),
+    deleteConversation: (data) => dispatch(deleteConversationContainer(data)),
+    makeAdmin: (data) => dispatch(makeAdmin(data)),
+    addMember: (data) => dispatch(addMember(data)),
+    fetchMessages: (data) => dispatch(fetchMessagesContainer(data)),
+    sendMessage: (data) => dispatch(sendMessageContainer(data)),
+    editMessage: (data) => dispatch(editMessageContainer(data)),
+    deleteMessage: (data) => dispatch(deleteMessageContainer(data)),
   };
 };
+
 const condition = (authUser) => !!authUser;
 
 const enhance = compose(

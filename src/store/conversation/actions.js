@@ -38,6 +38,7 @@ const fetchConversation = (data, { firebase }) => {
 
 const createConversation = (data, { firebase }) => {
   return (dispatch) => {
+    console.log(data);
     dispatch(createConversationRequest);
     firebase.firestore
       .collection("conversation")
