@@ -18,9 +18,9 @@ const firebase = require("firebase");
 const firestore = firebase.firestore();
 
 const fetchMessages = (data) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(fetchMessageRequest);
-    await firestore
+    firestore
       .collection("messages")
       .doc(data.conversation_id)
       .onSnapshot(
@@ -48,9 +48,9 @@ const fetchMessages = (data) => {
 };
 
 const sendMessage = (data) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(sendMessageRequest);
-    await firestore
+    firestore
       .collection("messages")
       .add({
         conversation_id: data.conversation_id,
@@ -77,9 +77,9 @@ const sendMessage = (data) => {
 };
 
 const editMessage = (data) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(editMessageRequest);
-    await firestore
+    firestore
       .collection("messages")
       .doc(data.message_id)
       .update({
@@ -102,9 +102,9 @@ const editMessage = (data) => {
 };
 
 const deleteMessage = (data) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(deleteMessageRequest);
-    await firestore
+    firestore
       .collection("messages")
       .doc(data.message_id)
       .delete()

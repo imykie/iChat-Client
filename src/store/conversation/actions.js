@@ -18,9 +18,9 @@ const firebase = require("firebase");
 const firestore = firebase.firestore();
 
 const fetchConversation = (data) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(fetchConversationRequest);
-    await firestore
+    firestore
       .collection("conversation")
       .doc(data.id)
       .onSnapshot(
@@ -43,9 +43,9 @@ const fetchConversation = (data) => {
 };
 
 const fetchAllConversation = (data) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(fetchConversationRequest);
-    await firestore
+    firestore
       .collection("conversation")
       .where("members", "array-contains", { user_id: data.user_id })
       .onSnapshot(
@@ -73,9 +73,9 @@ const fetchAllConversation = (data) => {
 };
 
 const createConversation = (data) => {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     getState();
-    dispatch(createConversationRequest());
+    ch(createConversationRequest());
     await firestore
       .collection("conversation")
       .add({
@@ -101,9 +101,9 @@ const createConversation = (data) => {
 };
 
 const editConversation = (data) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(editConversationRequest);
-    await firestore
+    firestore
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
@@ -121,9 +121,9 @@ const editConversation = (data) => {
 };
 
 const deleteConversation = (data) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(deleteConversationRequest);
-    await firestore
+    firestore
       .collection("conversation")
       .doc(data.conversation_id)
       .delete()
@@ -138,9 +138,9 @@ const deleteConversation = (data) => {
 };
 
 const makeAdmin = (data) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(editConversationRequest);
-    await firestore
+    firestore
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
@@ -158,9 +158,9 @@ const makeAdmin = (data) => {
 };
 
 const addMember = (data) => {
-  return async (dispatch) => {
+  return (dispatch) => {
     dispatch(editConversationRequest);
-    await firestore
+    firestore
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
