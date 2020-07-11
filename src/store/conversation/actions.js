@@ -23,18 +23,16 @@ const fetchConversation = (data) => {
       .firestore()
       .collection("conversation")
       .doc(data.id)
-      .get()
-      .then((doc) => {
-        if (!doc.exists) {
+      .onSnapshot( doc => {
+        if (doc.empty) {
           const data = { message: "Conversation does not exist" };
           return dispatch(fetchConversationSuccess(data));
         } else {
           return dispatch(fetchConversationSuccess(doc.data()));
         }
-      })
-      .catch((err) => {
+      }, err => {
         dispatch(fetchConversationFailed(err));
-      });
+      })
   };
 };
 
@@ -44,18 +42,21 @@ const fetchAllConversation = (data) => {
     await firebase
       .firestore()
       .collection("conversation")
-      .where("user_id", "=", data.user_id)
-      .get()
-      .then((doc) => {
-        if (!doc.exists) {
-          const data = { message: "Conversation does not exist" };
+      .where("members", "array-contains", { user_id: data.user_id })
+      .onSnapshot( doc => {
+        if (doc.empty) {
+          const data = { empty: true, message: "Conversation does not exist" };
           return dispatch(fetchConversationSuccess(data));
         } else {
-          console.log(doc.data())
-          return dispatch(fetchConversationSuccess(doc.data()));
+          console.log("all_convo");
+          let allConversations = [];
+          doc.forEach((d) => {
+            console.log(d.data());
+            allConversations.push(d.data());
+            return dispatch(fetchConversationSuccess(allConversations));
+          });
         }
-      })
-      .catch((err) => {
+      }, err => {
         dispatch(fetchConversationFailed(err));
       });
   };

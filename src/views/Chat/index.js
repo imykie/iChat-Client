@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { withAuthorization } from "../../context/Session";
 import { withFirebase } from "../../context/Firebase";
 import { compose } from "recompose";
 import { connect } from "react-redux";
 import {
   fetchConversation,
+  fetchAllConversation,
   createConversation,
   editConversation,
   deleteConversation,
@@ -16,21 +17,24 @@ import {
   deleteMessage,
 } from "../../store";
 
-class Chat extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+function Chat(props){
+  const [state, setState] = useState({
       user: JSON.parse(localStorage.getItem("authUser")),
-      conversation: this.props.data.conversation,
-      message: this.props.data.message,
+      conversation: props.data.conversation,
+      message: props.data.message,
       data: {
         conversation_name: "",
       },
-    };
-  }
+  })
 
-  getUsers = () => {
-    this.props.firebase.firestore
+  useEffect(() => {
+    props.fetchAllConversation({user_id: state.user.uid})
+  }, [])
+
+  console.log(props, state);
+
+  const getUsers = () => {
+    props.firebase.firestore
       .collection("users")
       .get()
       .then((snapshot) => {
@@ -44,37 +48,32 @@ class Chat extends Component {
       });
   };
 
-  onSubmit = async (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
-    await this.props.createConversation(this.state.data);
+    await props.createConversation(state.data);
   };
 
-  onCreateConversationChange = (event) => {
+  const onCreateConversationChange = (event) => {
     let inputName = event.target.name;
     let inputValue = event.target.value;
-    let statusCopy = Object.assign({}, this.state);
+    let statusCopy = Object.assign({}, state);
     statusCopy.data[inputName] = inputValue;
-    statusCopy.data.user_id = this.state.user.uid;
+    statusCopy.data.user_id = state.user.uid;
     statusCopy.data.conversation_type = "group";
-
-    this.setState({ ...statusCopy });
+    setState({ ...statusCopy });
   };
 
-  render() {
-    console.log(this.props, this.state);
-    const {
-      data: { conversation_name },
-    } = this.state;
+  const { data: { conversation_name } } = state;
 
     return (
       <div>
         <div>
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={onSubmit}>
             <input
               type="text"
               name="conversation_name"
               value={conversation_name}
-              onChange={this.onCreateConversationChange}
+              onChange={onCreateConversationChange}
               style={{ width: 80 + "%", marginLeft: 10 + "%" }}
             />
             <button type="submit" value="submit">
@@ -84,7 +83,6 @@ class Chat extends Component {
         </div>
       </div>
     );
-  }
 }
 
 const mapStateToProps = (state) => {
@@ -96,6 +94,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchConversation: (data) => dispatch(fetchConversation(data)),
+    fetchAllConversation: (data) => dispatch(fetchAllConversation(data)),
     createConversation: (data) => dispatch(createConversation(data)),
     editConversation: (data) => dispatch(editConversation(data)),
     deleteConversation: (data) => dispatch(deleteConversation(data)),
