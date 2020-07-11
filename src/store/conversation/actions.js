@@ -75,8 +75,8 @@ const fetchAllConversation = (data) => {
 const createConversation = (data) => {
   return (dispatch, getState) => {
     getState();
-    ch(createConversationRequest());
-    await firestore
+    dispatch(createConversationRequest());
+    firestore
       .collection("conversation")
       .add({
         creator_id: data.user_id,
