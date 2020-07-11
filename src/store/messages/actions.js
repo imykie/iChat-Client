@@ -14,32 +14,43 @@ import {
 } from "./actionCreators";
 
 // import { withFirebase } from "../../context/Firebase";
+const firebase = require("firebase");
+const firestore = firebase.firestore();
 
-const fetchMessages = (data, { firebase }) => {
-  return (dispatch) => {
+const fetchMessages = (data) => {
+  return async (dispatch) => {
     dispatch(fetchMessageRequest);
-    firebase.firestore
+    await firestore
       .collection("messages")
       .doc(data.conversation_id)
-      .get()
-      .then((doc) => {
-        if (!doc.exists) {
-          const data = { message: "No Messages in this conversa" };
-          return dispatch(fetchMessageSuccess(data));
-        } else {
-          return dispatch(fetchMessageSuccess(doc.data()));
+      .onSnapshot(
+        (doc) => {
+          if (doc.empty) {
+            const data = {
+              empty: true,
+              message: "No Messages",
+            };
+            return dispatch(fetchMessageSuccess(data));
+          } else {
+            let allMessages = [];
+            doc.forEach((d) => {
+              console.log(d.data());
+              allConversations.push(d.data());
+            });
+            return dispatch(fetchMessageSuccess(allMessages));
+          }
+        },
+        (err) => {
+          dispatch(fetchMessageFailed(err));
         }
-      })
-      .catch((err) => {
-        dispatch(fetchMessageFailed(err));
-      });
+      );
   };
 };
 
-const sendMessage = (data, { firebase }) => {
-  return (dispatch) => {
+const sendMessage = (data) => {
+  return async (dispatch) => {
     dispatch(sendMessageRequest);
-    firebase.firestore
+    await firestore
       .collection("messages")
       .add({
         conversation_id: data.conversation_id,
@@ -56,7 +67,7 @@ const sendMessage = (data, { firebase }) => {
         read_by: [],
       })
       .then((doc) => {
-        //update sent to true if message got to database
+        // update sent to true if message got to database
         dispatch(sendMessageSuccess(doc.data()));
       })
       .catch((err) => {
@@ -65,10 +76,10 @@ const sendMessage = (data, { firebase }) => {
   };
 };
 
-const editMessage = (data, { firebase }) => {
-  return (dispatch) => {
+const editMessage = (data) => {
+  return async (dispatch) => {
     dispatch(editMessageRequest);
-    firebase.firestore
+    await firestore
       .collection("messages")
       .doc(data.message_id)
       .update({
@@ -81,7 +92,7 @@ const editMessage = (data, { firebase }) => {
         },
       })
       .then((doc) => {
-        //update sent to true
+        // update sent to true
         dispatch(editMessageSuccess(doc.data()));
       })
       .catch((err) => {
@@ -90,15 +101,16 @@ const editMessage = (data, { firebase }) => {
   };
 };
 
-const deleteMessage = (data, {firebase}) => {
-  return (dispatch) => {
+const deleteMessage = (data) => {
+  return async (dispatch) => {
     dispatch(deleteMessageRequest);
-    firebase.firestore
+    await firestore
       .collection("messages")
       .doc(data.message_id)
       .delete()
       .then((doc) => {
-        dispatch(deleteMessageSuccess(doc.data()));
+        const info = { message: "Message deleted successfully" };
+        dispatch(deleteMessageSuccess(info));
       })
       .catch((err) => {
         dispatch(deleteMessageFailed(err));
@@ -106,14 +118,4 @@ const deleteMessage = (data, {firebase}) => {
   };
 };
 
-// const fetchMessagesContainer = withFirebase(fetchMessages);
-// const sendMessageContainer = withFirebase(sendMessage);
-// const editMessageContainer = withFirebase(editMessage);
-// const deleteMessageContainer = withFirebase(deleteMessage);
-
-export {
-  fetchMessages,
-  sendMessage,
-  editMessage,
-  deleteMessage,
-};
+export { fetchMessages, sendMessage, editMessage, deleteMessage };

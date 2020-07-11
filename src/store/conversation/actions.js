@@ -15,50 +15,60 @@ import {
 // import { withFirebase } from "../../context/Firebase";
 
 const firebase = require("firebase");
+const firestore = firebase.firestore();
 
 const fetchConversation = (data) => {
   return async (dispatch) => {
     dispatch(fetchConversationRequest);
-    await firebase
-      .firestore()
+    await firestore
       .collection("conversation")
       .doc(data.id)
-      .onSnapshot( doc => {
-        if (doc.empty) {
-          const data = { message: "Conversation does not exist" };
-          return dispatch(fetchConversationSuccess(data));
-        } else {
-          return dispatch(fetchConversationSuccess(doc.data()));
+      .onSnapshot(
+        (doc) => {
+          if (doc.empty) {
+            const data = {
+              empty: true,
+              message: "Conversation does not exist",
+            };
+            return dispatch(fetchConversationSuccess(data));
+          } else {
+            return dispatch(fetchConversationSuccess(doc.data()));
+          }
+        },
+        (err) => {
+          dispatch(fetchConversationFailed(err));
         }
-      }, err => {
-        dispatch(fetchConversationFailed(err));
-      })
+      );
   };
 };
 
 const fetchAllConversation = (data) => {
   return async (dispatch) => {
     dispatch(fetchConversationRequest);
-    await firebase
-      .firestore()
+    await firestore
       .collection("conversation")
       .where("members", "array-contains", { user_id: data.user_id })
-      .onSnapshot( doc => {
-        if (doc.empty) {
-          const data = { empty: true, message: "Conversation does not exist" };
-          return dispatch(fetchConversationSuccess(data));
-        } else {
-          console.log("all_convo");
-          let allConversations = [];
-          doc.forEach((d) => {
-            console.log(d.data());
-            allConversations.push(d.data());
+      .onSnapshot(
+        (doc) => {
+          if (doc.empty) {
+            const data = {
+              empty: true,
+              message: "Conversation does not exist",
+            };
+            return dispatch(fetchConversationSuccess(data));
+          } else {
+            let allConversations = [];
+            doc.forEach((d) => {
+              console.log(d.data());
+              allConversations.push(d.data());
+            });
             return dispatch(fetchConversationSuccess(allConversations));
-          });
+          }
+        },
+        (err) => {
+          dispatch(fetchConversationFailed(err));
         }
-      }, err => {
-        dispatch(fetchConversationFailed(err));
-      });
+      );
   };
 };
 
@@ -66,8 +76,7 @@ const createConversation = (data) => {
   return async (dispatch, getState) => {
     getState();
     dispatch(createConversationRequest());
-    await firebase
-      .firestore()
+    await firestore
       .collection("conversation")
       .add({
         creator_id: data.user_id,
@@ -94,8 +103,7 @@ const createConversation = (data) => {
 const editConversation = (data) => {
   return async (dispatch) => {
     dispatch(editConversationRequest);
-    await firebase
-      .firestore()
+    await firestore
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
@@ -115,13 +123,13 @@ const editConversation = (data) => {
 const deleteConversation = (data) => {
   return async (dispatch) => {
     dispatch(deleteConversationRequest);
-    await firebase
-      .firestore()
+    await firestore
       .collection("conversation")
       .doc(data.conversation_id)
       .delete()
-      .then((doc) => {
-        dispatch(deleteConversationSuccess(doc.data));
+      .then(() => {
+        const info = { message: "conversation deleted successfully" };
+        dispatch(deleteConversationSuccess(info));
       })
       .catch((err) => {
         dispatch(deleteConversationFailed(err));
@@ -132,8 +140,7 @@ const deleteConversation = (data) => {
 const makeAdmin = (data) => {
   return async (dispatch) => {
     dispatch(editConversationRequest);
-    await firebase
-      .firestore()
+    await firestore
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
@@ -153,8 +160,7 @@ const makeAdmin = (data) => {
 const addMember = (data) => {
   return async (dispatch) => {
     dispatch(editConversationRequest);
-    await firebase
-      .firestore()
+    await firestore
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
