@@ -28,14 +28,14 @@ const fetchMessages = (data) => {
           if (doc.empty) {
             const data = {
               empty: true,
-              message: "No Messages",
+              message: "No Messages available in chat",
             };
             return dispatch(fetchMessageSuccess(data));
           } else {
             let allMessages = [];
             doc.forEach((d) => {
               console.log(d.data());
-              allConversations.push(d.data());
+              allMessages.push(d.data());
             });
             return dispatch(fetchMessageSuccess(allMessages));
           }
@@ -108,7 +108,7 @@ const deleteMessage = (data) => {
       .collection("messages")
       .doc(data.message_id)
       .delete()
-      .then((doc) => {
+      .then(() => {
         const info = { message: "Message deleted successfully" };
         dispatch(deleteMessageSuccess(info));
       })
