@@ -12,13 +12,15 @@ import {
   deleteConversationSuccess,
   deleteConversationFailed,
 } from "./actionCreators";
-import { withFirebase } from "../../context/Firebase";
+// import { withFirebase } from "../../context/Firebase";
+
 const firebase = require("firebase");
 
-const fetchConversation = (data, { firebase }) => {
+const fetchConversation = (data) => {
   return async (dispatch) => {
     dispatch(fetchConversationRequest);
-    await firebase.firestore
+    await firebase
+      .firestore()
       .collection("conversation")
       .doc(data.id)
       .get()
@@ -27,6 +29,29 @@ const fetchConversation = (data, { firebase }) => {
           const data = { message: "Conversation does not exist" };
           return dispatch(fetchConversationSuccess(data));
         } else {
+          return dispatch(fetchConversationSuccess(doc.data()));
+        }
+      })
+      .catch((err) => {
+        dispatch(fetchConversationFailed(err));
+      });
+  };
+};
+
+const fetchAllConversation = (data) => {
+  return async (dispatch) => {
+    dispatch(fetchConversationRequest);
+    await firebase
+      .firestore()
+      .collection("conversation")
+      .where("user_id", "=", data.user_id)
+      .get()
+      .then((doc) => {
+        if (!doc.exists) {
+          const data = { message: "Conversation does not exist" };
+          return dispatch(fetchConversationSuccess(data));
+        } else {
+          console.log(doc.data())
           return dispatch(fetchConversationSuccess(doc.data()));
         }
       })
@@ -54,19 +79,22 @@ const createConversation = (data) => {
         conversation_avatar: "",
       })
       .then((doc) => {
-        dispatch(createConversationSuccess(doc.data()));
+        // const returnedData = doc.data();
+        dispatch(createConversationSuccess(doc));
+        console.log(doc);
       })
       .catch((err) => {
         dispatch(createConversationFailed(err));
-        console.log(data);
+        console.log(err, data);
       });
   };
 };
 
-const editConversation = (data, { firebase }) => {
+const editConversation = (data) => {
   return async (dispatch) => {
     dispatch(editConversationRequest);
-    await firebase.firestore
+    await firebase
+      .firestore()
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
@@ -83,10 +111,11 @@ const editConversation = (data, { firebase }) => {
   };
 };
 
-const deleteConversation = (data, { firebase }) => {
+const deleteConversation = (data) => {
   return async (dispatch) => {
     dispatch(deleteConversationRequest);
-    await firebase.firestore
+    await firebase
+      .firestore()
       .collection("conversation")
       .doc(data.conversation_id)
       .delete()
@@ -102,7 +131,8 @@ const deleteConversation = (data, { firebase }) => {
 const makeAdmin = (data) => {
   return async (dispatch) => {
     dispatch(editConversationRequest);
-    await firebase.firestore
+    await firebase
+      .firestore()
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
@@ -122,7 +152,8 @@ const makeAdmin = (data) => {
 const addMember = (data) => {
   return async (dispatch) => {
     dispatch(editConversationRequest);
-    await firebase.firestore
+    await firebase
+      .firestore()
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
@@ -139,16 +170,12 @@ const addMember = (data) => {
   };
 };
 
-const fetchConversationContainer = withFirebase(fetchConversation);
-const createConversationContainer = createConversation;
-const editConversationContainer = withFirebase(editConversation);
-const deleteConversationContainer = withFirebase(deleteConversation);
-
 export {
-  fetchConversationContainer,
-  createConversationContainer,
-  editConversationContainer,
-  deleteConversationContainer,
+  fetchConversation,
+  fetchAllConversation,
+  createConversation,
+  editConversation,
+  deleteConversation,
   makeAdmin,
   addMember,
 };

@@ -4,16 +4,16 @@ import { withFirebase } from "../../context/Firebase";
 import { compose } from "recompose";
 import { connect } from "react-redux";
 import {
-  fetchConversationContainer,
-  createConversationContainer,
-  editConversationContainer,
-  deleteConversationContainer,
+  fetchConversation,
+  createConversation,
+  editConversation,
+  deleteConversation,
   makeAdmin,
   addMember,
-  fetchMessagesContainer,
-  sendMessageContainer,
-  editMessageContainer,
-  deleteMessageContainer,
+  fetchMessages,
+  sendMessage,
+  editMessage,
+  deleteMessage,
 } from "../../store";
 
 class Chat extends Component {
@@ -95,16 +95,16 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchConversation: (data) => dispatch(fetchConversationContainer(data)),
-    createConversation: (data) => dispatch(createConversationContainer(data)),
-    editConversation: (data) => dispatch(editConversationContainer(data)),
-    deleteConversation: (data) => dispatch(deleteConversationContainer(data)),
+    fetchConversation: (data) => dispatch(fetchConversation(data)),
+    createConversation: (data) => dispatch(createConversation(data)),
+    editConversation: (data) => dispatch(editConversation(data)),
+    deleteConversation: (data) => dispatch(deleteConversation(data)),
     makeAdmin: (data) => dispatch(makeAdmin(data)),
     addMember: (data) => dispatch(addMember(data)),
-    fetchMessages: (data) => dispatch(fetchMessagesContainer(data)),
-    sendMessage: (data) => dispatch(sendMessageContainer(data)),
-    editMessage: (data) => dispatch(editMessageContainer(data)),
-    deleteMessage: (data) => dispatch(deleteMessageContainer(data)),
+    fetchMessages: (data) => dispatch(fetchMessages(data)),
+    sendMessage: (data) => dispatch(sendMessage(data)),
+    editMessage: (data) => dispatch(editMessage(data)),
+    deleteMessage: (data) => dispatch(deleteMessage(data)),
   };
 };
 

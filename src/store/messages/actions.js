@@ -105,14 +105,14 @@ const deleteMessage = (data, {firebase}) => {
   };
 };
 
-const fetchMessagesContainer = withFirebase(fetchMessages);
-const sendMessageContainer = withFirebase(sendMessage);
-const editMessageContainer = withFirebase(editMessage);
-const deleteMessageContainer = withFirebase(deleteMessage);
+// const fetchMessagesContainer = withFirebase(fetchMessages);
+// const sendMessageContainer = withFirebase(sendMessage);
+// const editMessageContainer = withFirebase(editMessage);
+// const deleteMessageContainer = withFirebase(deleteMessage);
 
 export {
-  fetchMessagesContainer,
-  sendMessageContainer,
-  editMessageContainer,
-  deleteMessageContainer,
+  fetchMessages,
+  sendMessage,
+  editMessage,
+  deleteMessage,
 };
