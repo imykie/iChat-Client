@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import "./profile.css";
-import { withFirebase } from "../../components/Firebase";
+import { withFirebase } from "../../context/Firebase";
 import LinkWithGoogle from "./linkGoogle";
 import LinkWithFacebook from "./linkFacebook";
 import LinkWithGithub from "./linkGithub";
 import LinkWithTwitter from "./linkTwitter";
 import LinkWithEmailAndPassword from "./linkEmailAndPassword";
-import { withAuthorization, AuthUserContext } from "../../components/Session";
+import { withAuthorization, AuthUserContext } from "../../context/Session";
 
 const ProfilePage = () => {
   return (

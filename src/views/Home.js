@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { withAuthorization } from "../components/Session";
+import { withAuthorization } from "../context/Session";
 import { graphql } from "react-apollo";
-import { testQuery } from "../components/Queries";
+import { testQuery } from "../helpers/Queries";
 import { compose } from "recompose";
 
 class Home extends Component {

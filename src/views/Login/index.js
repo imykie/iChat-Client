@@ -3,7 +3,7 @@ import './login.css';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import { SignUpLink } from '../Signup';
-import { withFirebase } from '../../components/Firebase';
+import { withFirebase } from '../../context/Firebase';
 import SignInWithGoogle from './googleAuth';
 import SignInWithFacebook from './facebookAuth';
 import SignInWithGithub from './githubAuth';

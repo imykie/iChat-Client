@@ -12,7 +12,7 @@ import {
   deleteMessageSuccess,
   deleteMessageFailed,
 } from "./actionCreators";
-import { withFirebase } from "../../components/Firebase";
+import { withFirebase } from "../../context/Firebase";
 
 const fetchMessages = (data, { firebase }) => {
   return (dispatch) => {

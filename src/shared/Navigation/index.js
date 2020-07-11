@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import * as ROUTES from '../../constants/routes';
-import SignOutBtn from '../SignOut';
+import SignOutBtn from '../../components/SignOut';
 
 const Navigation = ({authUser}) => (
     <div>

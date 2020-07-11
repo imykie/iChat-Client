@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ForgotPassword } from '../ForgotPassword';
 import ChangePassword from '../../components/ChangePassword';
-import { withAuthorization, AuthUserContext } from '../../components/Session';
+import { withAuthorization, AuthUserContext } from '../../context/Session';
 
 class Admin extends Component{
     constructor(props){

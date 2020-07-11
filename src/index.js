@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "materialize-css/dist/css/materialize.min.css";
 // import M from 'materialize-css';
 import * as serviceWorker from "./serviceWorker";
-import Firebase, { FirebaseContext } from "./components/Firebase";
+import Firebase, { FirebaseContext } from "./context/Firebase";
 
 ReactDOM.render(
   <React.StrictMode>

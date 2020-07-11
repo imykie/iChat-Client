@@ -12,13 +12,13 @@ import {
   deleteConversationSuccess,
   deleteConversationFailed,
 } from "./actionCreators";
-import { withFirebase } from "../../components/Firebase";
+import { withFirebase } from "../../context/Firebase";
 const firebase = require("firebase");
 
 const fetchConversation = (data, { firebase }) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(fetchConversationRequest);
-    firebase.firestore
+    await firebase.firestore
       .collection("conversation")
       .doc(data.id)
       .get()
@@ -36,11 +36,12 @@ const fetchConversation = (data, { firebase }) => {
   };
 };
 
-const createConversation = (data, { firebase }) => {
-  return (dispatch) => {
-    console.log(data);
-    dispatch(createConversationRequest);
-    firebase.firestore
+const createConversation = (data) => {
+  return async (dispatch, getState) => {
+    getState();
+    dispatch(createConversationRequest());
+    await firebase
+      .firestore()
       .collection("conversation")
       .add({
         creator_id: data.user_id,
@@ -57,14 +58,15 @@ const createConversation = (data, { firebase }) => {
       })
       .catch((err) => {
         dispatch(createConversationFailed(err));
+        console.log(data);
       });
   };
 };
 
 const editConversation = (data, { firebase }) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(editConversationRequest);
-    firebase.firestore
+    await firebase.firestore
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
@@ -82,9 +84,9 @@ const editConversation = (data, { firebase }) => {
 };
 
 const deleteConversation = (data, { firebase }) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(deleteConversationRequest);
-    firebase.firestore
+    await firebase.firestore
       .collection("conversation")
       .doc(data.conversation_id)
       .delete()
@@ -98,9 +100,9 @@ const deleteConversation = (data, { firebase }) => {
 };
 
 const makeAdmin = (data) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(editConversationRequest);
-    firebase.firestore
+    await firebase.firestore
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
@@ -118,9 +120,9 @@ const makeAdmin = (data) => {
 };
 
 const addMember = (data) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(editConversationRequest);
-    firebase.firestore
+    await firebase.firestore
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
@@ -138,7 +140,7 @@ const addMember = (data) => {
 };
 
 const fetchConversationContainer = withFirebase(fetchConversation);
-const createConversationContainer = withFirebase(createConversation);
+const createConversationContainer = createConversation;
 const editConversationContainer = withFirebase(editConversation);
 const deleteConversationContainer = withFirebase(deleteConversation);
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './signup.css'
 import { Link, withRouter } from 'react-router-dom';
-import { withFirebase } from '../../components/Firebase';
+import { withFirebase } from '../../context/Firebase';
 import { compose } from 'recompose';
 import { LogInWithGoogle, LogInWithFaceBook, LogInWithGithub, LogInWithTwitter } from '../Login'
 import * as ROUTES from '../../constants/routes';

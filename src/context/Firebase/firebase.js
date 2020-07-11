@@ -40,7 +40,6 @@ class Firebase {
     signInWithEmailAndPassword(email, password){
         return this.auth.signInWithEmailAndPassword(email, password);
     }
-
     //reset password
     resetPassword(email){
         return this.auth.sendPasswordResetEmail(email);

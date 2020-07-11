@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { withAuthorization } from "../../components/Session";
-import { withFirebase } from "../../components/Firebase";
+import { withAuthorization } from "../../context/Session";
+import { withFirebase } from "../../context/Firebase";
 import { compose } from "recompose";
 import { connect } from "react-redux";
 import {
@@ -47,7 +47,6 @@ class Chat extends Component {
   onSubmit = async (event) => {
     event.preventDefault();
     await this.props.createConversation(this.state.data);
-    
   };
 
   onCreateConversationChange = (event) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { withFirebase } from '../Firebase';
+import { withFirebase } from '../../context/Firebase';
 
 const { log } = console;
 

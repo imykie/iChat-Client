@@ -5,9 +5,9 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import { withAuthentication } from "./components/Session";
+import { withAuthentication } from "./context/Session";
 
-import Navigation from "./components/Navigation";
+import Navigation from "./shared/Navigation";
 import Admin from "./views/Admin/Admin";
 import Chat from "./views/Chat";
 import Home from "./views/Home";
