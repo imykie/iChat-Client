@@ -166,37 +166,43 @@ const makeAdmin = (data) => {
 const addMember = (data) => {
   return async (dispatch) => {
     dispatch(editConversationRequest);
-    const userId = await firebase
+    const ref = await firebase
       .firestore()
       .collection("users")
-      .where("email", "==", "tundexmike@gmail.com")
+      .where("email", "==", data.userEmail)
+      .get();
+    console.log("userId", ref.docs[0].id);
+    const userId = ref.docs[0].id;
+
+    // if (userId) {
+    const conversationRef = firebase.firestore().collection("conversation");
+    conversationRef
+      .where("members", "array-contains", { user_id: userId })
       .get()
       .then((doc) => {
-        console.log(doc.data());
-        return doc.data().uid;
-      })
-      .catch((err) => {
-        console.log(err);
-        return null;
+        if (doc.exists) {
+          const response = {
+            exist: true,
+            message: "user is already in the conversation",
+          };
+          dispatch(editConversationSuccess(response));
+        } else {
+          conversationRef
+            .doc(data.conversationId)
+            .update({
+              members: firebase.firestore.FieldValue.arrayUnion({
+                user_id: userId,
+              }),
+            })
+            .then((doc) => {
+              console.log(doc.data());
+              // dispatch(editConversationSuccess(doc.data()));
+            })
+            .catch((err) => {
+              dispatch(editConversationFailed(err));
+            });
+        }
       });
-
-    if (userId) {
-      firebase
-        .firestore()
-        .collection("conversation")
-        .doc(data.conversation_id)
-        .update({
-          members: firebase.firestore.FieldValue.arrayUnion({
-            user_id: userId,
-          }),
-        })
-        .then((doc) => {
-          dispatch(editConversationSuccess(doc.data()));
-        })
-        .catch((err) => {
-          dispatch(editConversationFailed(err));
-        });
-    }
   };
 };
 
