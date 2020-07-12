@@ -15,12 +15,12 @@ import {
 
 // import { withFirebase } from "../../context/Firebase";
 const firebase = require("firebase");
-const firestore = firebase.firestore();
 
 const fetchMessages = (data) => {
   return (dispatch) => {
     dispatch(fetchMessageRequest);
-    firestore
+    firebase
+      .firestore()
       .collection("messages")
       .doc(data.conversation_id)
       .onSnapshot(
@@ -50,7 +50,8 @@ const fetchMessages = (data) => {
 const sendMessage = (data) => {
   return (dispatch) => {
     dispatch(sendMessageRequest);
-    firestore
+    firebase
+      .firestore()
       .collection("messages")
       .add({
         conversation_id: data.conversation_id,
@@ -79,7 +80,8 @@ const sendMessage = (data) => {
 const editMessage = (data) => {
   return (dispatch) => {
     dispatch(editMessageRequest);
-    firestore
+    firebase
+      .firestore()
       .collection("messages")
       .doc(data.message_id)
       .update({
@@ -104,7 +106,8 @@ const editMessage = (data) => {
 const deleteMessage = (data) => {
   return (dispatch) => {
     dispatch(deleteMessageRequest);
-    firestore
+    firebase
+      .firestore()
       .collection("messages")
       .doc(data.message_id)
       .delete()

@@ -15,12 +15,13 @@ import {
 // import { withFirebase } from "../../context/Firebase";
 
 const firebase = require("firebase");
-const firestore = firebase.firestore();
+// const firestore = firebase.firestore();
 
 const fetchConversation = (data) => {
   return (dispatch) => {
     dispatch(fetchConversationRequest);
-    firestore
+    firebase
+      .firestore()
       .collection("conversation")
       .doc(data.id)
       .onSnapshot(
@@ -45,7 +46,8 @@ const fetchConversation = (data) => {
 const fetchAllConversation = (data) => {
   return (dispatch) => {
     dispatch(fetchConversationRequest);
-    firestore
+    firebase
+      .firestore()
       .collection("conversation")
       .where("members", "array-contains", { user_id: data.user_id })
       .onSnapshot(
@@ -76,7 +78,8 @@ const createConversation = (data) => {
   return (dispatch, getState) => {
     getState();
     dispatch(createConversationRequest());
-    firestore
+    firebase
+      .firestore()
       .collection("conversation")
       .add({
         creator_id: data.user_id,
@@ -103,7 +106,8 @@ const createConversation = (data) => {
 const editConversation = (data) => {
   return (dispatch) => {
     dispatch(editConversationRequest);
-    firestore
+    firebase
+      .firestore()
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
@@ -123,7 +127,8 @@ const editConversation = (data) => {
 const deleteConversation = (data) => {
   return (dispatch) => {
     dispatch(deleteConversationRequest);
-    firestore
+    firebase
+      .firestore()
       .collection("conversation")
       .doc(data.conversation_id)
       .delete()
@@ -140,7 +145,8 @@ const deleteConversation = (data) => {
 const makeAdmin = (data) => {
   return (dispatch) => {
     dispatch(editConversationRequest);
-    firestore
+    firebase
+      .firestore()
       .collection("conversation")
       .doc(data.conversation_id)
       .update({
@@ -158,22 +164,39 @@ const makeAdmin = (data) => {
 };
 
 const addMember = (data) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(editConversationRequest);
-    firestore
-      .collection("conversation")
-      .doc(data.conversation_id)
-      .update({
-        members: firebase.firestore.FieldValue.arrayUnion({
-          user_id: data.member_id,
-        }),
-      })
+    const userId = await firebase
+      .firestore()
+      .collection("users")
+      .where("email", "==", "tundexmike@gmail.com")
+      .get()
       .then((doc) => {
-        dispatch(editConversationSuccess(doc.data()));
+        console.log(doc.data());
+        return doc.data().uid;
       })
       .catch((err) => {
-        dispatch(editConversationFailed(err));
+        console.log(err);
+        return null;
       });
+
+    if (userId) {
+      firebase
+        .firestore()
+        .collection("conversation")
+        .doc(data.conversation_id)
+        .update({
+          members: firebase.firestore.FieldValue.arrayUnion({
+            user_id: userId,
+          }),
+        })
+        .then((doc) => {
+          dispatch(editConversationSuccess(doc.data()));
+        })
+        .catch((err) => {
+          dispatch(editConversationFailed(err));
+        });
+    }
   };
 };
 

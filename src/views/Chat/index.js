@@ -29,6 +29,7 @@ function Chat(props){
 
   useEffect(() => {
     props.fetchAllConversation({user_id: state.user.uid})
+    props.addMember()
   }, [])
 
   console.log(props, state);
