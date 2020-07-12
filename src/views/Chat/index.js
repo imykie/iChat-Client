@@ -17,20 +17,19 @@ import {
   deleteMessage,
 } from "../../store";
 
-function Chat(props){
+function Chat(props) {
   const [state, setState] = useState({
-      user: JSON.parse(localStorage.getItem("authUser")),
-      conversation: props.data.conversation,
-      message: props.data.message,
-      data: {
-        conversation_name: "",
-      },
-  })
+    user: JSON.parse(localStorage.getItem("authUser")),
+    conversation: props.data.conversation,
+    message: props.data.message,
+    data: {
+      conversation_name: "",
+    },
+  });
 
   useEffect(() => {
-    props.fetchAllConversation({user_id: state.user.uid})
-    props.addMember()
-  }, [])
+    props.fetchAllConversation({ user_id: state.user.uid });
+  }, []);
 
   console.log(props, state);
 
@@ -64,26 +63,39 @@ function Chat(props){
     setState({ ...statusCopy });
   };
 
-  const { data: { conversation_name } } = state;
+  const {
+    data: { conversation_name },
+  } = state;
 
-    return (
+  return (
+    <div>
       <div>
-        <div>
-          <form onSubmit={onSubmit}>
-            <input
-              type="text"
-              name="conversation_name"
-              value={conversation_name}
-              onChange={onCreateConversationChange}
-              style={{ width: 80 + "%", marginLeft: 10 + "%" }}
-            />
-            <button type="submit" value="submit">
-              Create Conversation
-            </button>
-          </form>
-        </div>
+        <form onSubmit={onSubmit}>
+          <input
+            type="text"
+            name="conversation_name"
+            value={conversation_name}
+            onChange={onCreateConversationChange}
+            style={{ width: 80 + "%", marginLeft: 10 + "%" }}
+          />
+          <button type="submit" value="submit">
+            Create Conversation
+          </button>
+          <button
+            type="button"
+            onClick={() =>
+              props.addMember({
+                userEmail: "paulfrodo@gmail.com",
+                conversationId: "GT5eF5NqIMDT6uIf5PFT",
+              })
+            }
+          >
+            Add member
+          </button>
+        </form>
       </div>
-    );
+    </div>
+  );
 }
 
 const mapStateToProps = (state) => {

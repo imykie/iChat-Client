@@ -61,8 +61,8 @@ const fetchAllConversation = (data) => {
           } else {
             let allConversations = [];
             doc.forEach((d) => {
-              console.log(d.data());
-              allConversations.push(d.data());
+              console.log(d.data(), d.id);
+              allConversations.push({ ...d.data(), conversationId: d.id });
             });
             return dispatch(fetchConversationSuccess(allConversations));
           }
@@ -174,7 +174,6 @@ const addMember = (data) => {
     console.log("userId", ref.docs[0].id);
     const userId = ref.docs[0].id;
 
-    // if (userId) {
     const conversationRef = firebase.firestore().collection("conversation");
     conversationRef
       .where("members", "array-contains", { user_id: userId })
@@ -195,7 +194,10 @@ const addMember = (data) => {
               }),
             })
             .then((doc) => {
-              console.log(doc.data());
+              // console.log(doc.data());
+              doc.forEach((d) => {
+                console.log(d.data());
+              });
               // dispatch(editConversationSuccess(doc.data()));
             })
             .catch((err) => {
