@@ -92,8 +92,11 @@ const createConversation = (data) => {
         conversation_avatar: "",
       })
       .then((doc) => {
-        // const returnedData = doc.data();
-        dispatch(createConversationSuccess(doc));
+        const response = {
+          success: true,
+          message: "conversation created successfully",
+        };
+        dispatch(createConversationSuccess(response));
         console.log(doc);
       })
       .catch((err) => {
@@ -142,28 +145,8 @@ const deleteConversation = (data) => {
   };
 };
 
-const makeAdmin = (data) => {
-  return (dispatch) => {
-    dispatch(editConversationRequest);
-    firebase
-      .firestore()
-      .collection("conversation")
-      .doc(data.conversation_id)
-      .update({
-        admins: firebase.firestore.FieldValue.arrayUnion({
-          user_id: data.admin_id,
-        }),
-      })
-      .then((doc) => {
-        dispatch(editConversationSuccess(doc.data()));
-      })
-      .catch((err) => {
-        dispatch(editConversationFailed(err));
-      });
-  };
-};
-
 const addMember = (data) => {
+  const userType = data.isAdmin ? "admins" : "members";
   return async (dispatch) => {
     dispatch(editConversationRequest());
     const ref = await firebase
@@ -176,25 +159,33 @@ const addMember = (data) => {
 
     const conversationRef = firebase.firestore().collection("conversation");
     conversationRef
-      .where("members", "array-contains", { user_id: userId })
+      .where(userType, "array-contains", { user_id: userId })
       .get()
       .then((doc) => {
         console.log("exists", doc.empty);
         if (!doc.empty) {
           const response = {
+            success: true,
             exist: true,
             message: "user is already in the conversation",
           };
           console.log("user exists");
           dispatch(editConversationSuccess(response));
         } else {
+          const updateData = data.isAdmin
+            ? {
+                admins: firebase.firestore.FieldValue.arrayUnion({
+                  user_id: userId,
+                }),
+              }
+            : {
+                members: firebase.firestore.FieldValue.arrayUnion({
+                  user_id: userId,
+                }),
+              };
           conversationRef
             .doc(data.conversationId)
-            .update({
-              members: firebase.firestore.FieldValue.arrayUnion({
-                user_id: userId,
-              }),
-            })
+            .update(updateData)
             .then(() => {
               console.log("member added successfully");
               const response = {
@@ -217,6 +208,5 @@ export {
   createConversation,
   editConversation,
   deleteConversation,
-  makeAdmin,
   addMember,
 };

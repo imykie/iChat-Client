@@ -9,7 +9,6 @@ import {
   createConversation,
   editConversation,
   deleteConversation,
-  makeAdmin,
   addMember,
   fetchMessages,
   sendMessage,
@@ -87,6 +86,7 @@ function Chat(props) {
               props.addMember({
                 userEmail: "paulfrodo@gmail.com",
                 conversationId: "ETxP5toaD6wLo5V7iIcd",
+                isAdmin: false
               })
             }
           >
@@ -111,7 +111,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     createConversation: (data) => dispatch(createConversation(data)),
     editConversation: (data) => dispatch(editConversation(data)),
     deleteConversation: (data) => dispatch(deleteConversation(data)),
-    makeAdmin: (data) => dispatch(makeAdmin(data)),
     addMember: (data) => dispatch(addMember(data)),
     fetchMessages: (data) => dispatch(fetchMessages(data)),
     sendMessage: (data) => dispatch(sendMessage(data)),
