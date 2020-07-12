@@ -165,7 +165,7 @@ const makeAdmin = (data) => {
 
 const addMember = (data) => {
   return async (dispatch) => {
-    dispatch(editConversationRequest);
+    dispatch(editConversationRequest());
     const ref = await firebase
       .firestore()
       .collection("users")
@@ -179,11 +179,13 @@ const addMember = (data) => {
       .where("members", "array-contains", { user_id: userId })
       .get()
       .then((doc) => {
-        if (doc.exists) {
+        console.log("exists", doc.empty);
+        if (!doc.empty) {
           const response = {
             exist: true,
             message: "user is already in the conversation",
           };
+          console.log("user exists");
           dispatch(editConversationSuccess(response));
         } else {
           conversationRef
@@ -193,12 +195,13 @@ const addMember = (data) => {
                 user_id: userId,
               }),
             })
-            .then((doc) => {
-              // console.log(doc.data());
-              doc.forEach((d) => {
-                console.log(d.data());
-              });
-              // dispatch(editConversationSuccess(doc.data()));
+            .then(() => {
+              console.log("member added successfully");
+              const response = {
+                success: true,
+                message: `${data.userEmail} added to the conversation successfully`,
+              };
+              dispatch(editConversationSuccess(response));
             })
             .catch((err) => {
               dispatch(editConversationFailed(err));

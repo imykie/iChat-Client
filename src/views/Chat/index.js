@@ -86,7 +86,7 @@ function Chat(props) {
             onClick={() =>
               props.addMember({
                 userEmail: "paulfrodo@gmail.com",
-                conversationId: "GT5eF5NqIMDT6uIf5PFT",
+                conversationId: "ETxP5toaD6wLo5V7iIcd",
               })
             }
           >
